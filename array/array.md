@@ -143,3 +143,37 @@ var array = [1,2,3,4,5];
 console.log(array.sort(compare));//[2,1,5,4,3]
 ```
 
+
+
+## 数组拼接方法
+
+### concat()
+
+`concat()  `先基于当前数组项创建自身副本，然后将参数添加到这个数组的末尾，返回新数组。所以 `concat()`不会改变原数组。
+
+```js
+var numbers = [1,2];
+console.log(numbers,numbers.concat(3,4));//[1,2] [1,2,3,4]
+```
+
+
+
+利用 `call()` 方法将对象拼接为数组。
+
+```js
+Array.prototype.concat.call({a:1}, {b:2}) // [{ a: 1 }, { b: 2 }]
+```
+
+
+
+## 创建子数组方法
+
+`slice()`基于当前数组创建一个或多个项创建新数组，接收一个或两个参数，即要返回的起始和结束位置，最后返回新数组，`slice()`不影响原数组。
+
+```js
+var a = [1,2,3,4,5]
+console.log(a, a.slice(3)) // [1, 2, 3, 4, 5]   [4, 5]
+
+console.log(a, a.slice(2,3))
+[1, 2, 3, 4, 5] [3]
+```
