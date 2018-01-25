@@ -245,3 +245,101 @@ a.reduce(function(pre, cur){
 
 ## 数组迭代方法
 
+数组迭代方法大多以这样的函数作为参数，该函数又有三个参数
+
+数组项值， 值的索引， 数组本身
+
+```js
+function(item, index, arr){
+    // todo...
+}
+```
+
+### map()
+
+该方法对数组的每一项都运行给定函数，返回一个函数调用后的新数组。
+
+```js
+[1,2,3].map(function(item, index, arr){
+	return item+item;
+}) // [2,4,6]
+```
+
+
+
+### forEach()
+
+该方法运行对数组每一项都运行给定函数，但没有返回值，本质和 for循环 遍历数组一样。
+
+```js
+var a =2;
+
+[2,3,4].forEach(function(item){
+	a += item;
+})
+
+console.log(a) // 11
+```
+
+
+
+### filter()
+
+该方法运行对数组每一项都运行给定函数,返回结果为 true 的项组成的函数。
+
+```js
+[1,2,3,4,5,6].filter(function(item){
+	return item>=3;
+}) // [3, 4, 5, 6]
+```
+
+
+
+### some()
+
+该方法运行对数组每一项都运行给定函数， 有任一项返回 true ，则返回 true。全项返回 false，则返回 false。
+
+```js
+[1,2,3,4,5,6].some(function(item){
+	return item < 3;
+}) // true
+
+
+[1,2,3,4,5,6].some(function(item){
+	return item > 7;
+}) // false
+```
+
+
+
+### every()
+
+该方法运行对数组每一项都运行给定函数， 有任一项返回 false，则返回 false。全项返回 true，则返回 true。
+
+```js
+[1,2,3,4,5,6].every(function(item){
+	return item > 0;
+}) // true
+
+[1,2,3,4,5,6].every(function(item){
+	return item > 1;
+}) // false
+```
+
+
+
+## 对原数组的影响
+
+能改变原数组的方法有:
+
+栈和队列方法： `unshift()`、`shift()`、`pop()`、`push()`
+
+数组排列方法： `reserve()`、 `sort()`
+
+数组删改方法： `splice()`
+
+
+
+
+
+参考链接: <http://www.cnblogs.com/xiaohuochai/p/5682621.html>
