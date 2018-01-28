@@ -1,6 +1,9 @@
 ## 数组基础
   - [数组基础知识](array/array.md)
 
+## 数据结构
+  - [栈](dataStructure/stack.md)
+
 ##  排序算法
   - [冒泡排序](sort/bubbleSort.md)
   - [选择排序](sort/selectionSort.md)
