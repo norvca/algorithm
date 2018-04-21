@@ -126,6 +126,38 @@ function LinkedList() {
 
     return string;
   };
+
+  // indexOf 方法
+  this.indexOf = function(element) {
+    // 需要变量 current 来帮助循环列表
+    var current = this.head,
+        index = 0;
+
+    while(current) {
+      if(element === current.element) {
+        return index;
+      }
+      index++;
+      current = current.next;
+    }
+
+    return -1;
+  }
+
+  // isEmpty 方法
+  this.isEmpty = function() {
+    return this.length === 0;
+  }
+
+  // size 方法
+  this.size = function() {
+    return this.length;
+  }
+
+  // get head 方法
+  this.getHead = function() {
+    return this.head;
+  }
 };
 ```
 
