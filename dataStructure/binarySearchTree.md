@@ -67,6 +67,54 @@ function binarySearchTree() {
       }
     }
   };
+
+
+  // 实现中序遍历方法
+  // 回调函数定义对遍历到的每个节点的操作
+  this.inOrderTraverse = function(callback) {
+    inOrderTraverseNode(this.root, callback);
+  }
+
+  // 辅助函数：通过判断传入节点是否为 null 来决定是否停止递归。
+  // 先操作左侧小的子节点，再操作节点本身，最后操作右侧大的子节点。
+  var inOrderTraverseNode = function(node, callback) {
+    if(node !== null) {
+      inOrderTraverseNode(node.left, callback);
+      callback(node.key);
+      inOrderTraverseNode(node.right, callback);
+    }
+  }
+
+  // 先序遍历
+  // 回调函数定义对遍历到的每个节点的操作
+  this.preOrderTraverse = function(callback) {
+    preOrderTraverseNode(this.root, callback);
+  }
+
+  // 辅助函数
+  var preOrderTraverseNode = function(node, callback) {
+    callback(node.key);
+    preOrderTraverseNode(node.left, callback);
+    preOrderTraverseNode(node.right, callback);
+  }
+
+  // 后序遍历
+  this.postOrderTraverse = function(callback) {
+    postOrderTraverseNode(this.root, callback);
+  }
+
+  // 辅助函数
+  var postOrderTraverseNode = function(node, callback) {
+    postOrderTraverseNode(node.left, callback);
+    postOrderTraverseNode(node.right, callback);
+    callback(node.key);
+  }
 }
 ```
+
+注1：几种遍历方法的访问路径情况
+
+![](../pic/binarySearchTreeSequence.png)
+
+
 
