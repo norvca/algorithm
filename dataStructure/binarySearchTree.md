@@ -109,7 +109,61 @@ function binarySearchTree() {
     postOrderTraverseNode(node.right, callback);
     callback(node.key);
   }
+
+  // 搜索最小值
+  // min 方法暴露给用户，这个方法调用 minNode 方法
+  this.min = function() {
+    return minNode(this.root);
+  }
+
+  // 遍历树的左边直到找到树的最下层
+  var minNode = function(node) {
+    if(node) {
+      while(node && node.left) {
+        node = node.left;
+      }
+      return node.key;
+    }
+
+    return null;
+  }
+
+  // 同理搜索最大值
+  this.max = function() {
+    return maxNode(this.root);
+  }
+
+  var maxNode = function(node) {
+    if(node) {
+      while(node && node.right) {
+        node = node.right;
+      }
+      return node.key;
+    }
+
+    return null;
+  }
+
+  // 搜索特定的值
+  this.search = function(key) {
+    return searchNode(this.root, key);
+  }
+
+  // 辅助函数
+  var searchNode = function(node, key) {
+    if(node === null) {
+      return false
+    }
+    if (key < node.key) {
+      return searchNode(node.left, key)
+    } else if (key > node.key) {
+      return searchNode(node.right, key)
+    } else {
+      return true
+    }
+  }
 }
+
 ```
 
 注1：几种遍历方法的访问路径情况
