@@ -162,6 +162,47 @@ function binarySearchTree() {
       return true
     }
   }
+
+  // 移除一个节点
+  this.remove = function(key) {
+    root = removeNode(this.root, key);
+  }
+
+  // 辅助函数
+  var removeNode = function(node, key) {
+    if(node === null) {
+      return null;
+    }
+    if(key < node.key) {
+      node.left = removeNode(node.left, key);
+      return node;
+    } else if(key > node.key) {
+      node.right = removeNode(node.right, key);
+      return node;
+      // key 等于 node.key 时，分三种情况
+    } else {
+      // 1. node 是一个叶节点
+      if(node.left === null && node.right === null) {
+        node = null;
+        return node;
+      }
+
+      // 2. node只有一个子节点
+      if(node.left === null) {
+        node = node.right;
+        return node;
+      } else if (node.right = null) {
+        node = node.left;
+        return node;
+      }
+
+      // 3. node节点有两个子节点
+      var aux = this.min(node.right);
+      node.key = aux.key;
+      node.right = removeNode(node.right, aux.key);
+      return node;
+    }
+  }
 }
 
 ```
