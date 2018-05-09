@@ -168,7 +168,12 @@ function binarySearchTree() {
     root = removeNode(this.root, key);
   }
 
-  // 辅助函数
+  // 辅助函数2
+  var findMinNodeKey = function(node) {
+    return minNode(node);
+  }
+
+  // 辅助函数1
   var removeNode = function(node, key) {
     if(node === null) {
       return null;
@@ -197,9 +202,9 @@ function binarySearchTree() {
       }
 
       // 3. node节点有两个子节点
-      var aux = this.min(node.right);
-      node.key = aux.key;
-      node.right = removeNode(node.right, aux.key);
+      var aux = findMinNodeKey(node.right);
+      node.key = aux;
+      node.right = removeNode(node.right, aux);
       return node;
     }
   }
