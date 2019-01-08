@@ -168,7 +168,7 @@ Array.prototype.concat.call({a:1}, {b:2}) // [{ a: 1 }, { b: 2 }]
 
 ## 创建子数组方法
 
-###slice
+### slice
 
 `slice()`基于当前数组创建一个或多个项创建新数组，接收一个或两个参数，即要返回的起始和结束位置，最后返回新数组，`slice()`不影响原数组。
 
@@ -283,7 +283,13 @@ console.log(a) // 11
 
 ### find()
 find 循环遍历一个数组，然后返回一个新数组，当旧数组项符合给定函数时则会被添加到返回的新数组里，循环结束。
+```js
+var students = [{name: 'Tom', age: 15}, {name: 'Jane', age: 8}, {name: 'Oliva', age: 10}];
 
+students.find(function(student) {
+	return student.age === 10;
+}) // {name: "Oliva", age: 10}
+```
 
 
 ### filter()
