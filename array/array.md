@@ -164,6 +164,17 @@ console.log(numbers,numbers.concat(3,4));//[1,2] [1,2,3,4]
 Array.prototype.concat.call({a:1}, {b:2}) // [{ a: 1 }, { b: 2 }]
 ```
 
+`concat()` 是浅拷贝，所有原数组更新，拼接结果会跟着变化。
+```js
+const a = [[1]];
+const b = [2,3,4];
+const c = a.concat(b);
+
+console.log(c); // [ [ 1 ], 2, 3, 4 ]
+a[0].push(1.5);
+console.log(c); // [ [ 1, 1.5 ], 2, 3, 4 ]
+```
+
 
 
 ## 创建子数组方法
