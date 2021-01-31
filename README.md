@@ -1,6 +1,12 @@
 ## 数组基础
   - [数组基础知识](array/array.md)
 
+## Problem solving patterns
+  - [Divide And Conquer Pattern](problemSolvingPatterns/DivideAndConquerPattern)
+  - [Frequency Counter Pattern](problemSolvingPatterns/frequencyCounterPattern)
+  - [Multi Pointer Pattern](problemSolvingPatterns/multiPointerPattern)
+  - [Sliding Window Pattern](problemSolvingPatterns/slidingWindowPattern)
+
 ## 数据结构
   - [栈](dataStructure/stack.md)
   - [队列](dataStructure/queue.md)
