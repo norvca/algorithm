@@ -1,23 +1,33 @@
 interface lookup {
-  [prop: number]: number;
+  [prop: string]: number;
 }
 
-function countUniqueValues(arr: number[]): number {
-  let lookup: lookup = {};
-  let counter = 0;
-
-  arr.forEach(el => {
-    lookup[el] = (lookup[el] || 0) + 1;
-  });
-
-  for (let val in lookup) {
-    counter++;
+function validAnagram(str1: string, str2: string): boolean {
+  if (str1.length !== str2.length) {
+    return false;
   }
 
-  return counter;
+  let lookup: lookup = {};
+
+  for (let val of str1) {
+    lookup[val] = (lookup[val] || 0) + 1;
+  }
+
+  for (let val of str2) {
+    if (!lookup[val]) {
+      return false;
+    } else {
+      lookup[val] -= 1;
+    }
+  }
+
+  return true;
 }
 
-countUniqueValues([1, 1, 1, 1, 1, 2]); // 2
-countUniqueValues([1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13]); // 7
-countUniqueValues([]); // 0
-countUniqueValues([-2, -1, -1, 0, 1]); // 4
+validAnagram('', ''); // true
+validAnagram('aaz', 'zza'); // false
+validAnagram('anagram', 'nagaram'); // true
+validAnagram('rat', 'car'); // false) // false
+validAnagram('awesome', 'awesom'); // false
+validAnagram('qwerty', 'qeywrt'); // true
+validAnagram('texttwisttime', 'timetwisttext'); // true
