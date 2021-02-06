@@ -2,7 +2,7 @@
   - [数组基础知识](array/array.md)
 
 ## Problem solving patterns
-  - [Divide And Conquer Pattern](problemSolvingPatterns/DivideAndConquerPattern)
+  - [Divide And Conquer Pattern](problemSolvingPatterns/divideAndConquerPattern)
   - [Frequency Counter Pattern](problemSolvingPatterns/frequencyCounterPattern)
   - [Multi Pointer Pattern](problemSolvingPatterns/multiPointerPattern)
   - [Sliding Window Pattern](problemSolvingPatterns/slidingWindowPattern)

@@ -5,8 +5,6 @@ function search(arr: number[], val: number): number {
   let minIndex = 0;
   let maxIndex = arr.length - 1;
 
-  if (arr[minIndex] > val || arr[maxIndex] < val) return -1;
-
   while (minIndex <= maxIndex) {
     let middleIndex = Math.floor((minIndex + maxIndex) / 2);
     let middleElement = arr[middleIndex];
