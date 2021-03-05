@@ -1,10 +1,10 @@
 ## Navigate
 
-[1. Arithmetic operation](#1. Arithmetic operation)
+[1. Arithmetic operation](#1.-Arithmetic-operation)
 
-[2. Decorative operation](#2. Decorative operation)
+[2. Decorative operation](#2.-Decorative-operation)
 
-[3. Replace operation](#3. Replace operation)
+[3. Replace operation](#3.-Replace-operation)
 
 ## 1. Arithmetic operation
 
