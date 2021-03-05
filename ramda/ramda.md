@@ -6,8 +6,6 @@
 
 [3. Replace operation](#3. Replace operation)
 
-
-
 ## 1. Arithmetic operation
 
 ### add

@@ -2,7 +2,7 @@
   - [Array methods](array/array.md)
 
 ## Ramda methods
-  - [Ramda methods](ramda/ramda.md
+  - [Ramda methods](ramda/ramda.md)
 
 ## Problem solving patterns
   - [Divide And Conquer Pattern](problemSolvingPatterns/divideAndConquerPattern)
