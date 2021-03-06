@@ -1,10 +1,14 @@
-## Navigate
-
+## Navigation
 [1. Arithmetic operation](#1-arithmetic-operation)
 
-[2. Decorative operation](#2-decorative-operation)
+[2. String operation](#2-string-operation)
 
-[3. Replace operation](#3-replace-operation)
+[3. List operation](#3-list-operation)
+
+	- merge
+	- remove
+	- sort
+	- replace
 
 ## 1. Arithmetic operation
 
@@ -141,22 +145,22 @@ isOdd(21); // 1
 
 ```js
 // (The first argument) + (the second argument * n) until it turns to positive number
-R.mathMod(-17, 5);  //=> 3
+R.mathMod(-17, 5);  // 3
 
-R.mathMod(17, 5);   //=> 2
-R.mathMod(17, -5);  //=> NaN
-R.mathMod(17, 0);   //=> NaN
-R.mathMod(17.2, 5); //=> NaN
-R.mathMod(17, 5.3); //=> NaN
+R.mathMod(17, 5);   // 2
+R.mathMod(17, -5);  // NaN
+R.mathMod(17, 0);   // NaN
+R.mathMod(17.2, 5); // NaN
+R.mathMod(17, 5.3); // NaN
 
 const clock = R.mathMod(R.__, 12);
-clock(15); //=> 3
-clock(24); //=> 0
+clock(15); // 3
+clock(24); // 0
 
 const seventeenMod = R.mathMod(17);
-seventeenMod(3);  //=> 2
-seventeenMod(4);  //=> 1
-seventeenMod(10); //=> 7
+seventeenMod(3);  // 2
+seventeenMod(4);  // 1
+seventeenMod(10); // 7
 ```
 
 
@@ -166,8 +170,8 @@ seventeenMod(10); //=> 7
 Returns the mean of the given list of numbers
 
 ```js
-R.mean([2, 7, 9]); //=> 6
-R.mean([]); //=> NaN
+R.mean([2, 7, 9]); // 6
+R.mean([]); // NaN
 ```
 
 
@@ -177,24 +181,115 @@ R.mean([]); //=> NaN
 Returns the median of the given list of numbers
 
 ```js
-R.median([2, 9, 7]); //=> 7
-R.median([7, 2, 10, 9]); //=> 8
-R.median([]); //=> NaN
+R.median([2, 9, 7]); // 7
+R.median([7, 2, 10, 9]); // 8
+R.median([]); // NaN
 ```
 
 
 
+## 2. String operation
+
+### toLower
+
+Turn a string to lowercase
+
+```js
+R.toLower('ABC.123'); // 'abc.123'
+```
 
 
 
+### toUpper
 
-## 2. Decorative operation
+Turn a string to uppercase
+
+```js
+R.toUpper('abc.123'); // 'ABC.123'
+```
+
+
+
+### toString
+
+`* → String`
+
+Returns the **string representation** of the given value
+
+```js
+R.toString(42); // '42'
+R.toString('abc'); // '"abc"'
+R.toString([1, 2, 3]); // '[1, 2, 3]'
+R.toString({foo: 1, bar: 2, baz: 3}); // '{"bar": 2, "baz": 3, "foo": 1}'
+R.toString(new Date('2001-02-03T04:05:06Z')); // 'new Date("2001-02-03T04:05:06.000Z")'
+```
+
+
+
+### trim
+
+Removes whitespace from both ends of  the **string;**
+
+```js
+R.trim('  a bc     ') // 'a bc'
+R.map(R.trim,R.split(',', 'x,y , z ')) //['x', 'y', 'z']
+```
+
+
+
+### replace
+
+Replace a **substring** or **regex** match in a **string**
+
+```js
+R.replace('foo', 'bar', 'foo foo foo');  // 'bar foo foo'
+R.replace(/foo/, 'bar', 'foo foo foo');  // 'bar foo foo'
+R.replace(/foo/g, 'bar', 'foo foo foo'); // 'bar bar bar'
+```
+
+
+
+### split
+
+Splits a **string**  into an **array of strings**
+
+```js
+R.split('.', 'a.b.cd.efg'); // ['a', 'b', 'cd', 'efg'] 
+
+const pathComponents = R.split('/');
+R.tail(pathComponents('/usr/local/bin/node')) // ['usr', 'local', 'bin', 'node'] 
+```
+
+
+
+### match
+
+Test  **regular expression** against a **string**, return **empty array** when there are no match
+
+```js
+R.match(/[a-z]a/g, 'banana'); // ['ba', 'na', 'na']
+R.match(/a/, 'b'); // []
+R.match(/a/, 1); // 1 does not have a method named "match"
+```
+
+
+
+### test
+
+Determines whether a given **string** matches a given **regular expression**
+
+```js
+R.test(/z$/, 'xyz') // true
+R.test(/^z/, 'xyz') // false
+```
+
+
+
+## 3. Decorative operation
 
 ### addIndex
 
 
-
-## 3. Replace operation
 
 ### adjust
 
