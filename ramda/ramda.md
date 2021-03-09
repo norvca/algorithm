@@ -1,28 +1,28 @@
 ## Navigation
-[1. Arithmetic operations](#1-arithmetic-operations)
+[1. Arithmetic](#1-arithmetic)
 
-[2. String operations](#2-string-operations)
+[2. String](#2-string)
 
-[3. List operations](#3-list-operations)
+[3. Array](#3-array)
 
 - merge
 - remove
 - sort
 - replace
 
-[4. Object operations](#4-object-operations)
+[4. Object](#4-object)
 
-[5. Function operations](#5-function-operations)
+[5. Function](#5-function)
 
-[6. Relation operations](#6-relation-operations)
+[6. Relation](#6-relation)
 
-[7. Logic operations](#7-logic-operations)
+[7. Logic](#7-logic)
 
 [8. Types](#8-types)
 
 
 
-## 1. Arithmetic operations
+## 1. Arithmetic
 #### add
 
 Add two numbers
@@ -199,7 +199,7 @@ R.median([]); // NaN
 
 
 
-## 2. String operations
+## 2. String
 
 #### toLower
 
@@ -296,7 +296,9 @@ R.test(/^z/, 'xyz') // false
 
 
 
-## 3. List operations
+## 3. Array
+
+### 1. Replace
 
 #### adjust
 
@@ -308,6 +310,8 @@ R.adjust(-2, R.add(1), ['a', 'b', 3, 'd']); // [ 'a', 'b', 4, 'd' ]
 ```
 
 
+
+### 2. Check
 
 #### all
 
@@ -335,15 +339,875 @@ R.any(lessThan0, [-1, 2]); //true
 
 
 
+#### none
+
+Returns true if no elements in the array satisfies the predicate function
+
+```js
+const isEven = n => n % 2 === 0;
+const isOdd = n => n % 2 === 1;
+
+R.none(isEven, [1, 3, 5]); // true
+R.none(isOdd, [2, 4, 5]); // false
+```
+
+
+
+#### startsWith
+
+Checks if a array or string starts with the provided element
+
+```js
+R.startsWith('a', 'abc'); // true
+R.startsWith('b', 'abc'); // false
+R.startsWith(['a'], ['a', 'b', 'c']); // true
+R.startsWith(['b'], ['a', 'b', 'c']); // false
+```
+
+
+
+#### endsWith
+
+Checks if a array or string ends with the provided element
+
+```js
+R.endsWith('c', 'abc'); // true
+R.endsWith('bc', 'abc'); // true
+R.endsWith('b', 'abc'); // false
+
+R.endsWith(['c'], ['a', 'b', 'c']); // true
+R.endsWith(['b', 'c'], ['a', 'b', 'c']); // true
+R.endsWith(['b'], ['a', 'b', 'c']); // false
+```
+
+
+
+#### includes
+
+Check if at least one element is in the given input
+
+```js
+R.includes(3, [1, 2, 3]); // true
+R.includes(4, [1, 2, 3]); // false
+R.includes({ name: 'Fred' }, [{ name: 'Fred' }]); // true
+R.includes([42], [[42]]); // true
+R.includes([42], [[[42]]]); // false
+R.includes('ba', 'banana'); //true
+```
 
 
 
 
-## 4. Object operations
 
-## 5. Function operations
+### 3. Decoration
 
-## 6. Relation operations
+#### aperture
+
+Return a new array, composed of n-tuples of consecutive elements. 
+
+```js
+R.aperture(2, [1, 2, 3, 4, 5]); // [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 4, 5 ] ]
+R.aperture(3, [1, 2, 3, 4, 5]); // [ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ] ]
+R.aperture(8, [1, 2, 3, 4, 5]); // []
+```
+
+
+
+#### chain
+
+Map a function over an array and concatenates the results
+
+```js
+const duplicate = n => [n, n];
+
+R.chain(duplicate, [1, 2, 3]); // [ 1, 1, 2, 2, 3, 3 ]
+R.map(duplicate, [1, 2, 3]); // [ [ 1, 1 ], [ 2, 2 ], [ 3, 3 ] ]
+```
+
+
+
+### 4. Merge
+
+#### prepend
+
+Returns a new array with the given element at the front, followed by the original array
+
+```js
+R.prepend('...', ['abc']); // [ '...', 'abc' ] ​​
+R.prepend('...', 'abc'); // [ '...', 'a', 'b', 'c' ]
+```
+
+
+
+#### append
+
+Returns a new array containing the given array, followed by the **given element**
+
+```js
+R.append('...', ['abc']); // [ 'abc', '...' ]
+R.append('...', 'abc'); // [ 'a', 'b', 'c', '...' ]
+```
+
+
+
+#### concat
+
+Return the result of concatenating the **arrays** or **strings**
+
+```js
+R.concat('123', 'abc'); // 123abc
+R.concat([4, 5, 6], [1, 2, 3]); // [ 4, 5, 6, 1, 2, 3 ]
+R.concat([], []); // []
+```
+
+
+
+#### mergeAll
+
+`[{k: v}] → {k: v}`
+
+Combine the members of an array into an object
+
+``` js
+mergeAll([{ foo: 1, bar: 2, baz: 3 }]); // { foo: 1, bar: 2, baz: 3 }
+mergeAll([{ foo: 1, foo: 2, baz: 3 }]); // { foo: 2, baz: 3 }
+```
+
+
+
+### 5. Cut
+
+#### slice
+
+Takes out a new array from the start index ( included ) to the end index ( not included )
+
+```js
+R.slice(1, 3, ['a', 'b', 'c', 'd']); // [ 'b', 'c' ]
+R.slice(0, 3, 'ramda'); // ram
+```
+
+
+
+#### init
+
+Returns all but the **last** element of the given list or string
+
+```js
+R.init([1, 2, 3]);  // [1, 2]
+R.init([1, 2]);     // [1]
+R.init([1]);        // []
+R.init([]);         // []
+
+R.init('abc');  // 'ab'
+R.init('ab');   // 'a'
+R.init('a');    // ''
+R.init('');     // ''
+```
+
+
+
+#### tail
+
+Returns all but the **first** element of the given list or string
+
+```js
+R.tail([1, 2, 3]);  //=> [2, 3]
+R.tail([1, 2]);     //=> [2]
+R.tail([1]);        //=> []
+R.tail([]);         //=> []
+
+R.tail('abc');  //=> 'bc'
+R.tail('ab');   //=> 'b'
+R.tail('a');    //=> ''
+R.tail('');     //=> ''
+```
+
+
+
+#### take
+
+Return the first **n** elements of the given array
+
+```js
+R.take(2, ['foo', 'bar', 'baz']); // [ 'foo', 'bar' ]
+R.take(3, 'ramda'); // ram
+```
+
+
+
+#### takeLast
+
+Return the last **n** elements of the given array
+
+```js
+R.takeLast(2, ['foo', 'bar', 'baz']); // [ 'bar', 'baz' ]
+R.takeLast(3, 'ramda'); // mda
+```
+
+
+
+#### drop
+
+Return all but the first **n** elements of the array or string
+
+```js
+R.drop(2, ['foo', 'bar', 'baz']); // [ 'baz' ]
+R.drop(3, 'ramda'); // da
+
+const cutHead = R.drop(1);
+R.map(cutHead, [[1, 2, 3], '123']); // [ [ 2, 3 ], '23' ]
+```
+
+
+
+#### dropLast
+
+Return all but the first **n** elements of the array	
+
+```js
+R.dropLast(2, ['foo', 'bar', 'baz']); // [ 'foo' ]
+R.dropLast(3, 'ramda'); // ra
+
+const cutHead = R.dropLast(1);
+R.map(cutHead, [[1, 2, 3], '123']); // [ [ 1, 2 ], '12' ]
+```
+
+
+
+#### dropRepeats
+
+Returns a new array without consecutively repeating elements
+
+```js
+R.dropRepeats([1, 1, 2, 3, 4, 4, 4, 3]); // [ 1, 2, 3, 4, 3 ]
+```
+
+
+
+### 6. Filter
+
+#### dropWhile
+
+Excluding all the heading elements which satisfies the predicate function
+
+```js
+const lteThree = R.lte(R.__, 3);
+
+R.dropWhile(lteThree, [1, 2, 3, 4, 3, 2, 1]); // [ 4, 3, 2, 1 ]
+
+R.dropWhile(x => x !== 'd', 'ramda'); // da..
+```
+
+
+
+#### dropLastWhile
+
+Excluding all the tailing elements which satisfies the predicate function
+
+```js
+const lteThree = R.lte(R.__, 3);
+
+R.dropLastWhile(lteThree, [1, 2, 3, 4, 3, 2, 1]); // [1, 2, 3, 4]
+
+R.dropLastWhile(x => x !== 'd', 'ramda'); // ramd
+```
+
+
+
+#### dropRepeatsWith
+
+Returns a new array without consecutively repeating elements, the equality is determined by the **predicate function**, the **first elemen**t of equal elements will be **preserved**
+
+```js
+const arr = [1, -1, 2, -3, 3, -3];
+R.dropRepeatsWith(R.eqBy(Math.abs), arr); // [ 1, 2, -3 ]
+```
+
+
+
+#### filter
+
+Filter the input value with predicate function
+
+```js
+const isEven = n => n % 2 === 0;
+
+R.filter(isEven, [1, 2, 3, 4]); // [ 2, 4 ]
+R.filter(isEven, '1234'); // [ '2', '4' ]
+R.filter(isEven, { a: 1, b: 2, c: 3, d: 4 }); // { b: 2, d: 4 }
+```
+
+
+
+#### reject
+
+The complement of **filter**
+
+```js
+const isOdd = x => x % 2 === 1;
+R.reject(isOdd, [1, 2, 3, 4]); // [ 2, 4 ]
+
+const biggerThan5 = x => x > 5;
+R.reject(biggerThan5, [1, 3, 5, 7, 9]); // 9
+```
+
+
+
+#### remove
+
+Remove the sub-list starting at index **a** and containing **b** elements
+
+```js
+R.remove(2, 3, [1, 2, 3, 4, 5, 6, 7, 8]); // [ 1, 2, 6, 7, 8 ]
+```
+
+
+
+### 7. Find
+
+#### find
+
+Return the **first element** which matches the predicate function, or **undefined** if no one matches
+
+```js
+const people = [
+  { name: 'Lily', age: 22 },
+  { name: 'Tom', age: 33 },
+  { name: 'John', age: 33 },
+];
+
+R.find(R.propEq('age', 33))(people); // { name: 'Tom', age: 33 }
+R.find(R.propEq('age', 18))(people); // undefined
+```
+
+
+
+#### findIndex
+
+Return the **index of first element** which matches the predicate function, or **-1** if no one matches
+
+```js
+const people = [
+  { name: 'Lily', age: 22 },
+  { name: 'Tom', age: 33 },
+  { name: 'John', age: 33 },
+];
+
+R.findIndex(R.propEq('age', 33))(people); // 1
+R.findIndex(R.propEq('age', 18))(people); // -1
+```
+
+
+
+#### findLast
+
+Return the **last element** which matches the predicate function, or **undefined** if no one matches
+
+```js
+const people = [
+  { name: 'Lily', age: 22 },
+  { name: 'Tom', age: 33 },
+  { name: 'John', age: 33 },
+];
+
+R.findLast(R.propEq('age', 33))(people); // { name: 'John', age: 33 }
+R.findLast(R.propEq('age', 18))(people); // undefined
+```
+
+
+
+#### findLastIndex
+
+Return the **index of last element** which matches the predicate function, or **-1** if no one matches
+
+```js
+const people = [
+  { name: 'Lily', age: 22 },
+  { name: 'Tom', age: 33 },
+  { name: 'John', age: 33 },
+];
+
+R.findLastIndex(R.propEq('age', 33))(people); // 2
+R.findLastIndex(R.propEq('age', 18))(people); // -1
+```
+
+
+
+#### head
+
+Returns the **first** element of the array or string
+
+```js
+R.head(['foo', 'bar', 'baz']); // foo
+R.head('abc') // a
+```
+
+
+
+#### last
+
+Returns the **last** element of the array or string
+
+```js
+R.last(['fi', 'fo', 'fum']); // 'fum'
+R.last([]); // undefined
+
+R.last('abc'); // 'c'
+R.last(''); // ''
+```
+
+
+
+#### nth
+
+Returns the nth element of the given array or string
+
+```js
+const list = ['aa', 'bb', 'cc', 'dd'];
+R.nth(2, list); // cc
+R.nth(-1, list); // dd
+R.nth(-88, list); // undefined
+
+R.nth(2, 'abc') // c
+R.nth(3, 'abc') // ''
+```
+
+
+
+#### indexOf
+
+Returns the position of the **first** occurrence of an value in an array
+
+```js
+R.indexOf(3, [1,2,3,4]); // 2
+R.indexOf(10, [1,2,3,4]); // -1
+```
+
+
+
+#### lastIndexOf
+
+Returns the position of the **last** occurrence of an value in an array
+
+```js
+R.lastIndexOf(3, [-1,3,3,0,1,2,3,4]); // 6
+R.lastIndexOf(10, [1,2,3,4]); // -1
+```
+
+
+
+#### length
+
+Returns the number of elements in the array or string
+
+```js
+R.length([]); // 0
+R.length([1, 2, 3]); // 3
+R.length('1234') // 4
+```
+
+
+
+### 8. Composition
+
+#### insert
+
+Inserts **an element** into the **array** with a specified **index**
+
+```js
+R.insert(2, 'x', [1,2,3,4]); // [1,2,'x',3,4]
+```
+
+
+
+#### InsertAll
+
+Inserts **an sub list** into the **array** with a specified **index**
+
+```js
+R.insertAll(2, ['x', 'y', 'z'], [1, 2, 3, 4]); // [ 1, 2, 'x', 'y', 'z', 3, 4 ]
+```
+
+
+
+#### intersperse
+
+Inserts a member that represents a separator between array members
+
+```js
+R.intersperse('-', 'abc'); // [ 'a', '-', 'b', '-', 'c' ]
+R.intersperse('-', ['x', 'y', 'z']); // [ 'x', '-', 'y', '-', 'z' ]
+```
+
+
+
+#### flatten
+
+Flatten nested arrays
+
+```js
+R.flatten([1, 2, [3, 4], 5, [6, [7, 8, [9, [10, 11], 12]]]]);
+// [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] 
+```
+
+
+
+#### fromPairs
+
+Convert a nested array to an object, If the key appears in multiple pairs, choose the rightmost one
+
+```js
+R.fromPairs([
+  ['a', 1],
+  ['b', 2],
+  ['a', 3],
+]); // { a: 3, b: 2 }
+```
+
+
+
+#### groupBy
+
+Group array members according to a specific condition
+
+```js
+const byAge = R.groupBy(people => {
+  const age = people.age;
+
+  if (age < 30) return 'Young';
+  if (age < 60) return 'Middle-age';
+  return 'Old';
+});
+
+const people = [
+  { name: 'Abby', age: 18 },
+  { name: 'Eddy', age: 43 },
+  { name: 'Jack', age: 74 },
+  { name: 'Mike', age: 33 },
+];
+
+byAge(people);
+//  {
+//    Young: [{ name: 'Abby', age: 18 }],
+//    'Middle-age': [
+//      { name: 'Eddy', age: 43 },
+//      { name: 'Mike', age: 33 },
+//    ],
+//    Old: [{ name: 'Jack', age: 74 }],
+//  };
+```
+
+
+
+#### groupWith
+
+Group the adjacent elements in an array if they meet the predicate function
+
+```js
+R.groupWith(R.equals, [0, 1, 1, 2, 3, 2]); // [ [ 0 ], [ 1, 1 ], [ 2 ], [ 3 ], [ 2 ] ]
+
+R.groupWith((a, b) => a + 1 === b, [0, 1, 1, 2, 3, 2]); // [ [ 0, 1 ], [ 1, 2, 3 ], [ 2 ] ]
+```
+
+
+
+#### indexBy
+
+`(a → String) → [{k: v}] → {k: {k: v}}`
+
+Turns a **list of objects** into an **object indexing the objects** by the given key
+
+```js
+const list = [
+  { id: 'xyz', title: 'A' },
+  { id: 'abc', title: 'B' },
+];
+
+R.indexBy(R.prop('id'), list);
+// { xyz: { id: 'xyz', title: 'A' }, abc: { id: 'abc', title: 'B' } }
+```
+
+
+
+#### [into](https://ramdajs.com/docs/#into)
+
+TODO: Don't understand this function
+
+```js
+TODO: To be added..
+```
+
+
+
+#### mapAccum
+
+`((acc, x) → (acc, y)) → acc → [x] → (acc, [y])`
+
+Behaves like combination of map and reduce
+
+```js
+const digits = [1, 2, 3, 4];
+const alphabet = ['a', 'b', 'c'];
+
+const appender = (a, b) => [b, a];
+
+R.mapAccum(appender, 0, digits); // [ 4, [ 0, 1, 2, 3 ] ]
+R.mapAccum(appender, '', alphabet); // [ '', [ 'a', 'b', 'c' ] ]
+```
+
+
+
+#### mapAccumRight
+
+Similar to **mapAccum**,  but passing and returning the value in array **from right to left**
+
+```js
+const digits = [1, 2, 3, 4];
+const alphabet = ['a', 'b', 'c'];
+
+const appender = (a, b) => [a + b, a + b];
+
+R.mapAccumRight(appender, 0, digits); // [ 10, [ 10, 9, 7, 4 ] ]
+R.mapAccumRight(appender, '', alphabet); // [ 'cba', [ 'cba', 'cb', 'c' ] ]
+```
+
+
+
+#### pair
+
+Take two arguments and return group them to an array
+
+```js
+R.pair('foo', 'bar'); // [ 'foo', 'bar' ]
+```
+
+
+
+#### partition
+
+If the elements in the array satisfies the predicate function, take them into
+
+```js
+R.partition(x => x < 5, [1, 18, 6, 3, 10]); 
+// [ [ 1, 3 ], [ 18, 6, 10 ] ]
+
+R.partition(R.includes('s'), ['sss', 'ttt', 'foo', 'bars']); 
+// [ [ 'sss', 'bars' ], [ 'ttt', 'foo' ] ]
+
+R.partition(R.includes('s'), { a: 'sss', b: 'ttt', c: 'bars' }); 
+// [ { a: 'sss', c: 'bars' }, { b: 'ttt' } ]
+```
+
+
+
+#### pluck
+
+Returns a new array with **the value of a specified property**
+
+```js
+var getAges = R.pluck('age');
+getAges([{name: 'fred', age: 29}, {name: 'wilma', age: 27}]); // [29, 27]
+
+R.pluck(0, [[1, 2], [3, 4]]);               // [1, 3]
+R.pluck('val', {a: {val: 3}, b: {val: 5}}); // {a: 3, b: 5}
+```
+
+
+
+#### range
+
+Returns an array of numbers from `a` to `b`
+
+```js
+R.range(1, 5); // [ 1, 2, 3, 4 ]
+R.range(97, 101); // [ 97, 98, 99, 100 ]
+```
+
+
+
+#### reduce
+
+Array members executes the function in turn, and each result will be the cumulative variable
+
+```js
+R.reduce(R.subtract, 0, [1, 2, 3]); // -6
+// 0 - 1 = -1;
+// -1 - 2 = -3;
+// -3 - 3 = -6;
+```
+
+
+
+#### reduceRight
+
+Array members executes the function in turn from right to left, and the **accumulated result** will put **on the right side** of the executing function
+
+```js
+R.reduceRight(R.subtract, 0, [1, 3, 7]); // 5
+// 7 - 0 = 7;
+// 3 - 7 = -4;
+// 1 - (-4) = 5;
+
+
+R.reduceRight(R.concat, '-', ['a', 'b', 'c']); // abc-
+// 'c' + '-' = 'c-';
+// 'b' + 'c-' = 'bc-';
+// 'a' + 'bc-' = 'abc-';
+```
+
+
+
+#### reduceWhile
+
+Similar to reduce when the element in array satisfies the predicate function 
+
+```js
+const arr = [1, 3, 5, 8, 9];
+
+const isOdd = (acc, x) => x % 2 === 1;
+R.reduceWhile(isOdd, R.add, 0, arr); // 9
+
+const smallerThan5 = (acc, x) => x < 5;
+R.reduceWhile(smallerThan5, R.multiply, 1, arr); // 3
+```
+
+
+
+#### scan
+
+Similar to reduce, but group the successively reduced values into an array
+
+```js
+const numbers = [3, 4, 5];
+R.scan(R.multiply, 1, numbers); // [ 1, 3, 12, 60 ]
+```
+
+
+
+#### repeat
+
+Repeat the element's identical value **n** times and put it into an array
+
+```js
+R.repeat('hi', 5); // [ 'hi', 'hi', 'hi', 'hi', 'hi' ]
+
+const jack = { name: 'Jack' };
+const repeatJack = R.repeat(jack, 3);
+// [ { name: 'Jack' }, { name: 'Jack' }, { name: 'Jack' } ]
+
+repeatJack[0] === repeatJack[2]; // true
+```
+
+
+
+#### splitAt
+
+Split a given array by a given index
+
+```js
+R.splitAt(1, [1, 2, 3]); // [ [ 1 ], [ 2, 3 ] ]
+R.splitAt(-1, 'foobar'); // [ 'fooba', 'r' ]
+```
+
+
+
+#### splitEvery
+
+Splits the original array into multiple parts according to the specified number
+
+```js
+R.splitEvery(3, [1, 2, 3, 4, 5, 6, 7]); 
+// [ [ 1, 2, 3 ], [ 4, 5, 6 ], [ 7 ] ]
+
+R.splitEvery(3, 'foobarbaz'); 
+// [ 'foo', 'bar', 'baz' ]
+```
+
+
+
+#### splitWhen
+
+Splits an array into two parts when a member satisfies the predicate function
+
+```js
+R.splitWhen(R.equals(2), [1, 2, 3, 1, 2, 3]); // [[1], [2, 3, 1, 2, 3]]
+```
+
+
+
+
+
+### 9. Traversal
+
+#### forEach
+
+Each members in the array executes a function in turn, and it will always returns the **original array**
+
+```js
+const printXPlusFive = x => console.log(x + 5);
+R.forEach(printXPlusFive, [1, 2, 3]); // [ 1, 2, 3 ]
+// logs 6
+// logs 7
+// logs 8
+```
+
+
+
+#### map
+
+Each members in the array executes a function in turn, and returns the result
+
+```js
+const double = x => x * 2;
+
+R.map(double, [1, 2, 3]); // [2, 4, 6]
+
+R.map(double, {x: 1, y: 2, z: 3}); // {x: 2, y: 4, z: 6}
+```
+
+
+
+### 10. Sort
+
+#### sort
+
+Sort an array according to the comparator function
+
+```js
+const diff = (a, b) => a - b;
+
+R.sort(diff, [4, 2, 7, 5]); // [2, 4, 5, 7]
+```
+
+
+
+#### reverse
+
+Reverse the elements in an array or string
+
+```js
+R.reverse([1, 2, 3]); // [ 3, 2, 1 ]
+R.reverse('abc'); // cba
+```
+
+
+
+#### move
+
+Move a item in an array from index **a** to index **b**
+
+```js
+R.move(0, 2, ['a', 'b', 'c', 'd', 'e', 'f']); // [ 'b', 'c', 'a', 'd', 'e', 'f' ]
+R.move(-1, 0, ['a', 'b', 'c', 'd', 'e', 'f']); // [ 'f', 'a', 'b', 'c', 'd', 'e' ]
+```
+
+
+
+## 4. Object
+
+## 5. Function
+
+## 6. Relation
 
 #### max
 
@@ -744,7 +1608,7 @@ R.union(
 
 
 
-#### unionWith
+#### [unionWith](https://ramdajs.com/docs/#unionWith)
 
 TODO: Don't understand this function
 
@@ -754,7 +1618,7 @@ TODO: To be added..
 
 
 
-## 7. Logic operations
+## 7. Logic
 
 #### allPass
 
@@ -897,7 +1761,7 @@ f(8); // true
 
 
 
-#### ifElse
+#### [ifElse](https://ramdajs.com/docs/#ifElse)
 
 TODO: Don't understand this function
 
