@@ -1,0 +1,24 @@
+{
+  "name": "algorithm",
+  "version": "1.0.0",
+  "description": "- [Array methods](array/array.md)",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/norvca/algorithm.git"
+  },
+  "keywords": [],
+  "author": "nonom <nonom@nonom.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/norvca/algorithm/issues"
+  },
+  "homepage": "https://github.com/norvca/algorithm#readme",
+  "dependencies": {
+    "chalk": "4.1.0",
+    "ramda": "0.27.1"
+  }
+}
