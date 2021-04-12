@@ -5,10 +5,15 @@
 
 [3. Array](#3-array)
 
-- merge
-- remove
-- sort
-- replace
+- [CheckIf](#Array-CheckIf)
+- [Replace](#Array-Replace)
+- [Merge](#Array-Merge)
+- [Cut](#Array-Cut)
+- [Filter](#Array-Filter)
+- [Find](#Array-Find)
+- [Composition](#Array-Composition)
+- [Traversal](#Array-Traversal)
+- [Sort](#Array-Sort)
 
 [4. Object](#4-object)
 
@@ -299,7 +304,7 @@ R.test(/^z/, 'xyz') // false
 
 ## 3. Array
 
-### 1. Check
+### Array-CheckIf
 
 #### all
 
@@ -385,7 +390,7 @@ R.includes('ba', 'banana'); //true
 
 
 
-### 2. Replace
+### Array-Replace
 
 #### adjust
 
@@ -409,7 +414,7 @@ R.update(-1, '_', [1, 2, 3, 4]); // [ 1, 2, 3, '_' ]
 
 
 
-### 4. Merge
+### Array-Merge
 
 #### prepend
 
@@ -453,12 +458,12 @@ Combine the members of an array into an object
 
 ``` js
 mergeAll([{ foo: 1 }, { bar: 2 }, { baz: 3 }]); // { foo: 1, bar: 2, baz: 3 }
-mergeAll([{ foo: 1 }, { foo: 2 }, { baz: 3 }]); // { foo: 2, baz: 3 }
+mergeAll([{ foo: 1 }, { foo: 2 }, { baz: 2 }]); // { foo: 2, baz: 2 }
 ```
 
 
 
-### 5. Cut
+### Array-Cut
 
 #### slice
 
@@ -477,6 +482,7 @@ Remove the sub-list starting at index **a** and containing **b** elements
 
 ```js
 R.remove(2, 3, [1, 2, 3, 4, 5, 6, 7, 8]); // [ 1, 2, 6, 7, 8 ]
+R.remove(0, 3, 'ramda'); // [ 'd', 'a' ]
 ```
 
 
@@ -567,87 +573,7 @@ R.map(cutHead, [[1, 2, 3], '123']); // [ [ 1, 2 ], '12' ]
 
 
 
-#### dropRepeats
-
-Returns a new array without consecutively repeating elements
-
-```js
-R.dropRepeats([1, 1, 2, 3, 4, 4, 4, 3]); // [ 1, 2, 3, 4, 3 ]
-```
-
-
-
-### 6. Filter
-
-#### uniq
-
-Return a new list containing only **one copy of each element** from the original list
-
-```js
-R.uniq([1, 2, 3, 2, 3, 4, 1]); // [ 1, 2, 3, 4 ]
-R.uniq([[1], [2], [2], [3]]); // [ [ 1 ], [ 2 ], [ 3 ] ]
-```
-
-
-
-#### uniqBy
-
-Return a new list containing only **one copy of each element**  from the original list based on the supplied function
-
-```js
-R.uniqBy(Math.abs, [-1, 1, 2, 3, 2]); // [ -1, 2, 3 ]
-```
-
-
-
-#### uniqWith
-
-Similar to **uniqBy** but with a comparing function
-
-```js
-R.uniqWith(strEq, [1, 2, 3, '2', 2, 4]); // [ 1, 2, 3, 4 ] 
-```
-
-
-
-#### dropWhile
-
-Excluding all the heading elements which satisfies the predicate function
-
-```js
-const lteThree = R.lte(R.__, 3);
-
-R.dropWhile(lteThree, [1, 2, 3, 4, 3, 2, 1]); // [ 4, 3, 2, 1 ]
-
-R.dropWhile(x => x !== 'd', 'ramda'); // da..
-```
-
-
-
-#### dropLastWhile
-
-Excluding all the tailing elements which satisfies the predicate function
-
-```js
-const lteThree = R.lte(R.__, 3);
-
-R.dropLastWhile(lteThree, [1, 2, 3, 4, 3, 2, 1]); // [1, 2, 3, 4]
-
-R.dropLastWhile(x => x !== 'd', 'ramda'); // ramd
-```
-
-
-
-#### dropRepeatsWith
-
-Returns a new array without consecutively repeating elements, the equality is determined by the **predicate function**, the **first elemen**t of equal elements will be **preserved**
-
-```js
-const arr = [1, -1, 2, -3, 3, -3];
-R.dropRepeatsWith(R.eqBy(Math.abs), arr); // [ 1, 2, -3 ]
-```
-
-
+### Array-Filter
 
 #### filter
 
@@ -673,6 +599,88 @@ R.reject(isOdd, [1, 2, 3, 4]); // [ 2, 4 ]
 
 const biggerThan5 = x => x > 5;
 R.reject(biggerThan5, [1, 3, 5, 7, 9]); // [ 1, 3, 5 ]
+```
+
+
+
+#### uniq
+
+Return a new list containing only **one copy of each element** from the original list
+
+```js
+R.uniq([1, 1, 2, 3, 4, 4, 4, 3]); // [ 1, 2, 3, 4 ]
+R.uniq([[1], [2], [2], [3], [2]]); // [ [ 1 ], [ 2 ], [ 3 ] ]
+```
+
+
+
+#### dropRepeats
+
+Returns a new array without consecutively repeating elements
+
+```js
+R.dropRepeats([1, 1, 2, 3, 4, 4, 4, 3]); // [ 1, 2, 3, 4, 3 ]
+R.dropRepeats([[1], [2], [2], [3], [2]]); // [ [ 1 ], [ 2 ], [ 3 ], [ 2 ] ]
+```
+
+
+
+#### uniqBy
+
+Return a new list containing only **one copy of each element**  from the original list based on the supplied function
+
+```js
+R.uniqBy(Math.abs, [-1, 1, 2, 3, 2]); // [ -1, 2, 3 ]
+```
+
+
+
+#### uniqWith
+
+Similar to **uniqBy** but with a comparing function
+
+```js
+const strEq = R.eqBy(String);
+R.uniqWith(strEq, [1, 2, 3, '2', 2, 4]); // [ 1, 2, 3, 4 ] 
+```
+
+
+
+#### dropWhile
+
+Excluding all the heading elements which satisfies the predicate function
+
+```js
+const lteThree = R.lte(R.__, 3);
+
+R.dropWhile(lteThree, [1, 2, 3, 4, 3, 2, 1]); // [ 4, 3, 2, 1 ]
+
+R.dropWhile(x => x !== 'd', 'ramda'); // da
+```
+
+
+
+#### dropLastWhile
+
+Excluding all the tailing elements which satisfies the predicate function
+
+```js
+const lteThree = R.lte(R.__, 3);
+
+R.dropLastWhile(lteThree, [1, 2, 3, 4, 3, 2, 1]); // [1, 2, 3, 4]
+
+R.dropLastWhile(x => x !== 'd', 'ramda'); // ramd
+```
+
+
+
+#### dropRepeatsWith
+
+Returns a new array without consecutively repeating elements, the equality is determined by the **predicate function**, the **first elemen**t of equal elements will be **preserved**
+
+```js
+const arr = [1, -1, 2, -3, 3, -3];
+R.dropRepeatsWith(R.eqBy(Math.abs), arr); // [ 1, 2, -3 ]
 ```
 
 
@@ -711,7 +719,7 @@ R.without([1, 2], [1, 2, 1, 3, 4]); // [3, 4]
 
 
 
-### 7. Find
+### Array-Find
 
 #### find
 
@@ -856,7 +864,7 @@ R.length('1234') // 4
 
 
 
-### 8. Composition
+### Array-Composition
 
 #### insert
 
@@ -984,10 +992,10 @@ Behaves like combination of map and reduce
 const digits = [1, 2, 3, 4];
 const alphabet = ['a', 'b', 'c'];
 
-const appender = (a, b) => [b, a];
+const appender = (a, b) => [a + b, a + b];
 
-R.mapAccum(appender, 0, digits); // [ 4, [ 0, 1, 2, 3 ] ]
-R.mapAccum(appender, '', alphabet); // [ '', [ 'a', 'b', 'c' ] ]
+R.mapAccum(appender, 0, digits); // [ 10, [ 1, 3, 6, 10 ] ]
+R.mapAccum(appender, '', alphabet); // [ 'abc', [ 'a', 'ab', 'abc' ] ]
 ```
 
 
@@ -1133,22 +1141,6 @@ R.scan(R.multiply, 1, numbers); // [ 1, 3, 12, 60 ]
 
 
 
-#### repeat
-
-Repeat the element's identical value **n** times and put it into an array
-
-```js
-R.repeat('hi', 5); // [ 'hi', 'hi', 'hi', 'hi', 'hi' ]
-
-const jack = { name: 'Jack' };
-const repeatJack = R.repeat(jack, 3);
-// [ { name: 'Jack' }, { name: 'Jack' }, { name: 'Jack' } ]
-
-repeatJack[0] === repeatJack[2]; // true
-```
-
-
-
 #### splitAt
 
 Split a given array by a given index
@@ -1180,6 +1172,34 @@ Splits an array into two parts when a member satisfies the predicate function
 
 ```js
 R.splitWhen(R.equals(2), [1, 2, 3, 1, 2, 3]); // [[1], [2, 3, 1, 2, 3]]
+```
+
+
+
+#### aperture
+
+Return a new array, composed of n-tuples of consecutive elements. 
+
+```js
+R.aperture(2, [1, 2, 3, 4, 5]); // [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 4, 5 ] ]
+R.aperture(3, [1, 2, 3, 4, 5]); // [ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ] ]
+R.aperture(8, [1, 2, 3, 4, 5]); // []
+```
+
+
+
+#### repeat
+
+Repeat the element's identical value **n** times and put it into an array
+
+```js
+R.repeat('hi', 5); // [ 'hi', 'hi', 'hi', 'hi', 'hi' ]
+
+const jack = { name: 'Jack' };
+const repeatJack = R.repeat(jack, 3);
+// [ { name: 'Jack' }, { name: 'Jack' }, { name: 'Jack' } ]
+
+repeatJack[0] === repeatJack[2]; // true
 ```
 
 
@@ -1270,18 +1290,6 @@ R.zipWith(f, [1, 2, 3], [2, 3, 4]); // [ 2, 2, 4 ]
 
 
 
-#### aperture
-
-Return a new array, composed of n-tuples of consecutive elements. 
-
-```js
-R.aperture(2, [1, 2, 3, 4, 5]); // [ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 4, 5 ] ]
-R.aperture(3, [1, 2, 3, 4, 5]); // [ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ] ]
-R.aperture(8, [1, 2, 3, 4, 5]); // []
-```
-
-
-
 #### [into](https://ramdajs.com/docs/#into)
 
 TODO: Don't understand this function
@@ -1312,7 +1320,7 @@ TODO: To be added..
 
 
 
-### 9. Traversal
+### Array-Traversal
 
 #### forEach
 
@@ -1355,7 +1363,7 @@ R.map(duplicate, [1, 2, 3]); // [ [ 1, 1 ], [ 2, 2 ], [ 3, 3 ] ]
 
 
 
-### 10. Sort
+### Array-Sort
 
 #### sort
 
@@ -1392,6 +1400,8 @@ R.move(-1, 0, ['a', 'b', 'c', 'd', 'e', 'f']); // [ 'f', 'a', 'b', 'c', 'd', 'e'
 
 
 ## 4. Object
+
+### CheckIf
 
 #### assoc
 
