@@ -6,18 +6,29 @@
 [3. Array](#3-array)
 
 - [CheckIf](#Array-CheckIf)
-- [Replace](#Array-Replace)
-- [Merge](#Array-Merge)
 - [Cut](#Array-Cut)
+- [Composition](#Array-Composition)
 - [Filter](#Array-Filter)
 - [Find](#Array-Find)
-- [Composition](#Array-Composition)
-- [Traversal](#Array-Traversal)
+- [Merge](#Array-Merge)
 - [Sort](#Array-Sort)
+- [Traversal](#Array-Traversal)
 
 [4. Object](#4-object)
 
+- [CheckIf](#Object-CheckIf)
+- [Composition](#Object-Composition)
+- [Filter](#Object-Filter)
+- [Find](#Object-Find)
+- [Traversal](#Object-Traversal)
+- [Lens](#Lens)
+
 [5. Function](#5-function)
+
+- [Composition](#Function-Composition)
+- [Currying](#Currying)
+- [Sort](#Function-Sort)
+- [Others](#Function-Others)
 
 [6. Relation](#6-relation)
 
@@ -390,79 +401,6 @@ R.includes('ba', 'banana'); //true
 
 
 
-### Array-Replace
-
-#### adjust
-
-Apply a function to the value at the given index of an array, return a new copy of the result
-
-```js
-R.adjust(1, R.toUpper, ['a', 'b', 3, 'd']); // [ 'a', 'B', 3, 'd' ]
-R.adjust(-2, R.add(1), ['a', 'b', 3, 'd']); // [ 'a', 'b', 4, 'd' ] 
-```
-
-
-
-#### update
-
-Replace the given index of an array with a given value
-
-```js
-R.update(1, '_', [1, 2, 3, 4]); // [ 1, '_', 3, 4 ]
-R.update(-1, '_', [1, 2, 3, 4]); // [ 1, 2, 3, '_' ]
-```
-
-
-
-### Array-Merge
-
-#### prepend
-
-Returns a new array with the given element at the front, followed by the original array
-
-```js
-R.prepend('...', ['abc']); // [ '...', 'abc' ]
-R.prepend('...', 'abc'); // [ '...', 'a', 'b', 'c' ]
-```
-
-
-
-#### append
-
-Returns a new array containing the given array, followed by the **given element**
-
-```js
-R.append('...', ['abc']); // [ 'abc', '...' ]
-R.append('...', 'abc'); // [ 'a', 'b', 'c', '...' ]
-```
-
-
-
-#### concat
-
-Return the result of concatenating the **arrays** or **strings**
-
-```js
-R.concat('123', 'abc'); // 123abc
-R.concat([4, 5, 6], [1, 2, 3]); // [ 4, 5, 6, 1, 2, 3 ]
-R.concat([], []); // []
-```
-
-
-
-#### mergeAll
-
-`[{k: v}] → {k: v}`
-
-Combine the members of an array into an object
-
-``` js
-mergeAll([{ foo: 1 }, { bar: 2 }, { baz: 3 }]); // { foo: 1, bar: 2, baz: 3 }
-mergeAll([{ foo: 1 }, { foo: 2 }, { baz: 2 }]); // { foo: 2, baz: 2 }
-```
-
-
-
 ### Array-Cut
 
 #### slice
@@ -573,298 +511,29 @@ R.map(cutHead, [[1, 2, 3], '123']); // [ [ 1, 2 ], '12' ]
 
 
 
-### Array-Filter
-
-#### filter
-
-Filter the input value with predicate function
-
-```js
-const isEven = n => n % 2 === 0;
-
-R.filter(isEven, [1, 2, 3, 4]); // [ 2, 4 ]
-R.filter(isEven, '1234'); // [ '2', '4' ]
-R.filter(isEven, { a: 1, b: 2, c: 3, d: 4 }); // { b: 2, d: 4 }
-```
-
-
-
-#### reject
-
-The complement of **filter**
-
-```js
-const isOdd = x => x % 2 === 1;
-R.reject(isOdd, [1, 2, 3, 4]); // [ 2, 4 ]
-
-const biggerThan5 = x => x > 5;
-R.reject(biggerThan5, [1, 3, 5, 7, 9]); // [ 1, 3, 5 ]
-```
-
-
-
-#### uniq
-
-Return a new list containing only **one copy of each element** from the original list
-
-```js
-R.uniq([1, 1, 2, 3, 4, 4, 4, 3]); // [ 1, 2, 3, 4 ]
-R.uniq([[1], [2], [2], [3], [2]]); // [ [ 1 ], [ 2 ], [ 3 ] ]
-```
-
-
-
-#### dropRepeats
-
-Returns a new array without consecutively repeating elements
-
-```js
-R.dropRepeats([1, 1, 2, 3, 4, 4, 4, 3]); // [ 1, 2, 3, 4, 3 ]
-R.dropRepeats([[1], [2], [2], [3], [2]]); // [ [ 1 ], [ 2 ], [ 3 ], [ 2 ] ]
-```
-
-
-
-#### uniqBy
-
-Return a new list containing only **one copy of each element**  from the original list based on the supplied function
-
-```js
-R.uniqBy(Math.abs, [-1, 1, 2, 3, 2]); // [ -1, 2, 3 ]
-```
-
-
-
-#### uniqWith
-
-Similar to **uniqBy** but with a comparing function
-
-```js
-const strEq = R.eqBy(String);
-R.uniqWith(strEq, [1, 2, 3, '2', 2, 4]); // [ 1, 2, 3, 4 ] 
-```
-
-
-
-#### dropWhile
-
-Excluding all the heading elements which satisfies the predicate function
-
-```js
-const lteThree = R.lte(R.__, 3);
-
-R.dropWhile(lteThree, [1, 2, 3, 4, 3, 2, 1]); // [ 4, 3, 2, 1 ]
-
-R.dropWhile(x => x !== 'd', 'ramda'); // da
-```
-
-
-
-#### dropLastWhile
-
-Excluding all the tailing elements which satisfies the predicate function
-
-```js
-const lteThree = R.lte(R.__, 3);
-
-R.dropLastWhile(lteThree, [1, 2, 3, 4, 3, 2, 1]); // [1, 2, 3, 4]
-
-R.dropLastWhile(x => x !== 'd', 'ramda'); // ramd
-```
-
-
-
-#### dropRepeatsWith
-
-Returns a new array without consecutively repeating elements, the equality is determined by the **predicate function**, the **first elemen**t of equal elements will be **preserved**
-
-```js
-const arr = [1, -1, 2, -3, 3, -3];
-R.dropRepeatsWith(R.eqBy(Math.abs), arr); // [ 1, 2, -3 ]
-```
-
-
-
-#### takeWhile
-
-Return a new array containing the **first n** elements until it doesn't meet the predicate function
-
-```js
-const isNot5 = x => x != 5;
-
-R.takeWhile(isNot5, [1, 2, 3, 4, 5, 6]); // [ 1, 2, 3, 4 ]
-```
-
-
-
-#### takeLastWhile
-
-Return a new array containing the **last n** elements until it doesn't meet the predicate function
-
-```js
-const biggerThan3 = x => x > 3;
-
-R.takeLastWhile(biggerThan3, [1, 2, 3, 4, 5, 6]); // [ 4, 5, 6 ]
-```
-
-
-
-#### without
-
-Returns a new array without values in the first array
-
-```js
-R.without([1, 2], [1, 2, 1, 3, 4]); // [3, 4]
-```
-
-
-
-### Array-Find
-
-#### find
-
-Return the **first element** which matches the predicate function, or **undefined** if no one matches
-
-```js
-const people = [
-  { name: 'Lily', age: 22 },
-  { name: 'Tom', age: 33 },
-  { name: 'John', age: 33 },
-];
-
-R.find(R.propEq('age', 33))(people); // { name: 'Tom', age: 33 }
-R.find(R.propEq('age', 18))(people); // undefined
-```
-
-
-
-#### findIndex
-
-Return the **index of first element** which matches the predicate function, or **-1** if no one matches
-
-```js
-const people = [
-  { name: 'Lily', age: 22 },
-  { name: 'Tom', age: 33 },
-  { name: 'John', age: 33 },
-];
-
-R.findIndex(R.propEq('age', 33))(people); // 1
-R.findIndex(R.propEq('age', 18))(people); // -1
-```
-
-
-
-#### findLast
-
-Return the **last element** which matches the predicate function, or **undefined** if no one matches
-
-```js
-const people = [
-  { name: 'Lily', age: 22 },
-  { name: 'Tom', age: 33 },
-  { name: 'John', age: 33 },
-];
-
-R.findLast(R.propEq('age', 33))(people); // { name: 'John', age: 33 }
-R.findLast(R.propEq('age', 18))(people); // undefined
-```
-
-
-
-#### findLastIndex
-
-Return the **index of last element** which matches the predicate function, or **-1** if no one matches
-
-```js
-const people = [
-  { name: 'Lily', age: 22 },
-  { name: 'Tom', age: 33 },
-  { name: 'John', age: 33 },
-];
-
-R.findLastIndex(R.propEq('age', 33))(people); // 2
-R.findLastIndex(R.propEq('age', 18))(people); // -1
-```
-
-
-
-#### head
-
-Returns the **first** element of the array or string
-
-```js
-R.head(['foo', 'bar', 'baz']); // foo
-R.head('abc') // a
-```
-
-
-
-#### last
-
-Returns the **last** element of the array or string
-
-```js
-R.last(['fi', 'fo', 'fum']); // 'fum'
-R.last([]); // undefined
-
-R.last('abc'); // 'c'
-R.last(''); // ''
-```
-
-
-
-#### nth
-
-Returns the nth element of the given array or string
-
-```js
-const list = ['aa', 'bb', 'cc', 'dd'];
-R.nth(2, list); // cc
-R.nth(-1, list); // dd
-R.nth(-88, list); // undefined
-
-R.nth(2, 'abc') // c
-R.nth(3, 'abc') // ''
-```
-
-
-
-#### indexOf
-
-Returns the position of the **first** occurrence of an value in an array
-
-```js
-R.indexOf(3, [1,2,3,4]); // 2
-R.indexOf(10, [1,2,3,4]); // -1
-```
-
-
-
-#### lastIndexOf
-
-Returns the position of the **last** occurrence of an value in an array
-
-```js
-R.lastIndexOf(3, [-1,3,3,0,1,2,3,4]); // 6
-R.lastIndexOf(10, [1,2,3,4]); // -1
-```
-
-
-
-#### length
-
-Returns the number of elements in the array or string
-
-```js
-R.length([]); // 0
-R.length([1, 2, 3]); // 3
-R.length('1234') // 4
-```
-
-
-
 ### Array-Composition
+
+#### adjust
+
+Apply a function to the value at the given index of an array, return a new copy of the result
+
+```js
+R.adjust(1, R.toUpper, ['a', 'b', 3, 'd']); // [ 'a', 'B', 3, 'd' ]
+R.adjust(-2, R.add(1), ['a', 'b', 3, 'd']); // [ 'a', 'b', 4, 'd' ] 
+```
+
+
+
+#### update
+
+Replace the given index of an array with a given value
+
+```js
+R.update(1, '_', [1, 2, 3, 4]); // [ 1, '_', 3, 4 ]
+R.update(-1, '_', [1, 2, 3, 4]); // [ 1, 2, 3, '_' ]
+```
+
+
 
 #### insert
 
@@ -1290,32 +959,378 @@ R.zipWith(f, [1, 2, 3], [2, 3, 4]); // [ 2, 2, 4 ]
 
 
 
-#### [into](https://ramdajs.com/docs/#into)
+### Array-Filter
 
-TODO: Don't understand this function
+#### filter
+
+Filter the input value with predicate function
 
 ```js
-TODO: To be added..
+const isEven = n => n % 2 === 0;
+
+R.filter(isEven, [1, 2, 3, 4]); // [ 2, 4 ]
+R.filter(isEven, '1234'); // [ '2', '4' ]
+R.filter(isEven, { a: 1, b: 2, c: 3, d: 4 }); // { b: 2, d: 4 }
 ```
 
 
 
-#### [transduce](https://ramdajs.com/docs/#transduce)
+#### reject
 
-TODO: Don't understand this function
+The complement of **filter**
 
 ```js
-TODO: To be added..
+const isOdd = x => x % 2 === 1;
+R.reject(isOdd, [1, 2, 3, 4]); // [ 2, 4 ]
+
+const biggerThan5 = x => x > 5;
+R.reject(biggerThan5, [1, 3, 5, 7, 9]); // [ 1, 3, 5 ]
 ```
 
 
 
-#### [traverse](https://ramdajs.com/docs/#traverse)
+#### uniq
 
-TODO: Don't understand this function
+Return a new list containing only **one copy of each element** from the original list
 
 ```js
-TODO: To be added..
+R.uniq([1, 1, 2, 3, 4, 4, 4, 3]); // [ 1, 2, 3, 4 ]
+R.uniq([[1], [2], [2], [3], [2]]); // [ [ 1 ], [ 2 ], [ 3 ] ]
+```
+
+
+
+#### dropRepeats
+
+Returns a new array without consecutively repeating elements
+
+```js
+R.dropRepeats([1, 1, 2, 3, 4, 4, 4, 3]); // [ 1, 2, 3, 4, 3 ]
+R.dropRepeats([[1], [2], [2], [3], [2]]); // [ [ 1 ], [ 2 ], [ 3 ], [ 2 ] ]
+```
+
+
+
+#### uniqBy
+
+Return a new list containing only **one copy of each element**  from the original list based on the supplied function
+
+```js
+R.uniqBy(Math.abs, [-1, 1, 2, 3, 2]); // [ -1, 2, 3 ]
+```
+
+
+
+#### uniqWith
+
+Similar to **uniqBy** but with a comparing function
+
+```js
+const strEq = R.eqBy(String);
+R.uniqWith(strEq, [1, 2, 3, '2', 2, 4]); // [ 1, 2, 3, 4 ] 
+```
+
+
+
+#### dropWhile
+
+Excluding all the heading elements which satisfies the predicate function
+
+```js
+const lteThree = R.lte(R.__, 3);
+
+R.dropWhile(lteThree, [1, 2, 3, 4, 3, 2, 1]); // [ 4, 3, 2, 1 ]
+
+R.dropWhile(x => x !== 'd', 'ramda'); // da
+```
+
+
+
+#### dropLastWhile
+
+Excluding all the tailing elements which satisfies the predicate function
+
+```js
+const lteThree = R.lte(R.__, 3);
+
+R.dropLastWhile(lteThree, [1, 2, 3, 4, 3, 2, 1]); // [1, 2, 3, 4]
+
+R.dropLastWhile(x => x !== 'd', 'ramda'); // ramd
+```
+
+
+
+#### dropRepeatsWith
+
+Returns a new array without consecutively repeating elements, the equality is determined by the **predicate function**, the **first elemen**t of equal elements will be **preserved**
+
+```js
+const arr = [1, -1, 2, -3, 3, -3];
+R.dropRepeatsWith(R.eqBy(Math.abs), arr); // [ 1, 2, -3 ]
+```
+
+
+
+#### takeWhile
+
+Return a new array containing the **first n** elements until it doesn't meet the predicate function
+
+```js
+const isNot5 = x => x != 5;
+
+R.takeWhile(isNot5, [1, 2, 3, 4, 5, 6]); // [ 1, 2, 3, 4 ]
+```
+
+
+
+#### takeLastWhile
+
+Return a new array containing the **last n** elements until it doesn't meet the predicate function
+
+```js
+const biggerThan3 = x => x > 3;
+
+R.takeLastWhile(biggerThan3, [1, 2, 3, 4, 5, 6]); // [ 4, 5, 6 ]
+```
+
+
+
+#### without
+
+Returns a new array without values in the first array
+
+```js
+R.without([1, 2], [1, 2, 1, 3, 4]); // [3, 4]
+```
+
+
+
+### Array-Find
+
+#### find
+
+Return the **first element** which matches the predicate function, or **undefined** if no one matches
+
+```js
+const people = [
+  { name: 'Lily', age: 22 },
+  { name: 'Tom', age: 33 },
+  { name: 'John', age: 33 },
+];
+
+R.find(R.propEq('age', 33))(people); // { name: 'Tom', age: 33 }
+R.find(R.propEq('age', 18))(people); // undefined
+```
+
+
+
+#### findIndex
+
+Return the **index of first element** which matches the predicate function, or **-1** if no one matches
+
+```js
+const people = [
+  { name: 'Lily', age: 22 },
+  { name: 'Tom', age: 33 },
+  { name: 'John', age: 33 },
+];
+
+R.findIndex(R.propEq('age', 33))(people); // 1
+R.findIndex(R.propEq('age', 18))(people); // -1
+```
+
+
+
+#### findLast
+
+Return the **last element** which matches the predicate function, or **undefined** if no one matches
+
+```js
+const people = [
+  { name: 'Lily', age: 22 },
+  { name: 'Tom', age: 33 },
+  { name: 'John', age: 33 },
+];
+
+R.findLast(R.propEq('age', 33))(people); // { name: 'John', age: 33 }
+R.findLast(R.propEq('age', 18))(people); // undefined
+```
+
+
+
+#### findLastIndex
+
+Return the **index of last element** which matches the predicate function, or **-1** if no one matches
+
+```js
+const people = [
+  { name: 'Lily', age: 22 },
+  { name: 'Tom', age: 33 },
+  { name: 'John', age: 33 },
+];
+
+R.findLastIndex(R.propEq('age', 33))(people); // 2
+R.findLastIndex(R.propEq('age', 18))(people); // -1
+```
+
+
+
+#### head
+
+Returns the **first** element of the array or string
+
+```js
+R.head(['foo', 'bar', 'baz']); // foo
+R.head('abc') // a
+```
+
+
+
+#### last
+
+Returns the **last** element of the array or string
+
+```js
+R.last(['fi', 'fo', 'fum']); // 'fum'
+R.last([]); // undefined
+
+R.last('abc'); // 'c'
+R.last(''); // ''
+```
+
+
+
+#### nth
+
+Returns the nth element of the given array or string
+
+```js
+const list = ['aa', 'bb', 'cc', 'dd'];
+R.nth(2, list); // cc
+R.nth(-1, list); // dd
+R.nth(-88, list); // undefined
+
+R.nth(2, 'abc') // c
+R.nth(3, 'abc') // ''
+```
+
+
+
+#### indexOf
+
+Returns the position of the **first** occurrence of an value in an array
+
+```js
+R.indexOf(3, [1,2,3,4]); // 2
+R.indexOf(10, [1,2,3,4]); // -1
+```
+
+
+
+#### lastIndexOf
+
+Returns the position of the **last** occurrence of an value in an array
+
+```js
+R.lastIndexOf(3, [-1,3,3,0,1,2,3,4]); // 6
+R.lastIndexOf(10, [1,2,3,4]); // -1
+```
+
+
+
+#### length
+
+Returns the number of elements in the array or string
+
+```js
+R.length([]); // 0
+R.length([1, 2, 3]); // 3
+R.length('1234') // 4
+```
+
+
+
+### Array-Merge
+
+#### prepend
+
+Returns a new array with the given element at the front, followed by the original array
+
+```js
+R.prepend('...', ['abc']); // [ '...', 'abc' ]
+R.prepend('...', 'abc'); // [ '...', 'a', 'b', 'c' ]
+```
+
+
+
+#### append
+
+Returns a new array containing the given array, followed by the **given element**
+
+```js
+R.append('...', ['abc']); // [ 'abc', '...' ]
+R.append('...', 'abc'); // [ 'a', 'b', 'c', '...' ]
+```
+
+
+
+#### concat
+
+Return the result of concatenating the **arrays** or **strings**
+
+```js
+R.concat('123', 'abc'); // 123abc
+R.concat([4, 5, 6], [1, 2, 3]); // [ 4, 5, 6, 1, 2, 3 ]
+R.concat([], []); // []
+```
+
+
+
+#### mergeAll
+
+`[{k: v}] → {k: v}`
+
+Combine the members of an array into an object
+
+``` js
+mergeAll([{ foo: 1 }, { bar: 2 }, { baz: 3 }]); // { foo: 1, bar: 2, baz: 3 }
+mergeAll([{ foo: 1 }, { foo: 2 }, { baz: 2 }]); // { foo: 2, baz: 2 }
+```
+
+
+
+### Array-Sort
+
+#### sort
+
+Sort an array according to the comparator function
+
+```js
+const diff = (a, b) => a - b;
+
+R.sort(diff, [4, 2, 7, 5]); // [2, 4, 5, 7]
+```
+
+
+
+#### reverse
+
+Reverse the elements in an array or string
+
+```js
+R.reverse([1, 2, 3]); // [ 3, 2, 1 ]
+R.reverse('abc'); // cba
+```
+
+
+
+#### move
+
+Move a item in an array from index **a** to index **b**
+
+```js
+R.move(0, 2, ['a', 'b', 'c', 'd', 'e', 'f']); // [ 'b', 'c', 'a', 'd', 'e', 'f' ]
+R.move(-1, 0, ['a', 'b', 'c', 'd', 'e', 'f']); // [ 'f', 'a', 'b', 'c', 'd', 'e' ]
 ```
 
 
@@ -1363,146 +1378,39 @@ R.map(duplicate, [1, 2, 3]); // [ [ 1, 1 ], [ 2, 2 ], [ 3, 3 ] ]
 
 
 
-### Array-Sort
+#### [into](https://ramdajs.com/docs/#into)
 
-#### sort
-
-Sort an array according to the comparator function
+TODO: Don't understand this function
 
 ```js
-const diff = (a, b) => a - b;
-
-R.sort(diff, [4, 2, 7, 5]); // [2, 4, 5, 7]
+TODO: To be added..
 ```
 
 
 
-#### reverse
+#### [transduce](https://ramdajs.com/docs/#transduce)
 
-Reverse the elements in an array or string
+TODO: Don't understand this function
 
 ```js
-R.reverse([1, 2, 3]); // [ 3, 2, 1 ]
-R.reverse('abc'); // cba
+TODO: To be added..
 ```
 
 
 
-#### move
+#### [traverse](https://ramdajs.com/docs/#traverse)
 
-Move a item in an array from index **a** to index **b**
+TODO: Don't understand this function
 
 ```js
-R.move(0, 2, ['a', 'b', 'c', 'd', 'e', 'f']); // [ 'b', 'c', 'a', 'd', 'e', 'f' ]
-R.move(-1, 0, ['a', 'b', 'c', 'd', 'e', 'f']); // [ 'f', 'a', 'b', 'c', 'd', 'e' ]
+TODO: To be added..
 ```
 
 
 
 ## 4. Object
 
-### CheckIf
-
-#### assoc
-
-Make a **shallow copy** of an object, adding or rewriting a property
-
-```js
-R.assoc('score', 88, { name: 'Jack', age: 21 }); 
-// { name: 'Jack', age: 21, score: 88 }
-```
-
-
-
-#### assocPath
-
-Make a **shallow copy** of an object, adding or rewriting a property with given path
-
-```js
-R.assocPath(['a', 'b', 'c'], 42, { a: { b: { c: 0 } } }); 
-// { a: { b: { c: 42 } } }
-R.assocPath(['a', 'b', 'c'], 42, { a: 0 });
-// { a: { b: { c: 42 } } }
-```
-
-
-
-#### clone
-
-Make a deep clone
-
-```js
-objects === objectsClone; // false
-objects[0] === objectsClone[0]; // false
-```
-
-
-
-#### dissoc
-
-Return a object with specified property deleted
-
-```js
-R.dissoc('b', { a: 1, b: 2, c: 3 }); // { a: 1, c: 3 }
-```
-
-
-
-#### dissocPaths
-
-Return a object with specified property deleted by the given path
-
-```js
-R.dissocPath(['a', 'b', 'c'], {a: {b: {c: 42}}}); // {a: {b: {}}}
-```
-
-
-
-#### eqProps
-
-Check if two objects have the same property
-
-```js
-const obj1 = { a: 1, b: 2, c: 3, d: 4 };
-const obj2 = { a: 10, b: 20, c: 3, d: 40 };
-
-R.eqProps('a', obj1, obj2); // true
-R.eqProps('c', obj1, obj2); // true
-```
-
-
-
-#### evolve
-
-The properties in object are processed by a set of functions and return a new shallow copy object
-
-```js
-const jack = { firstName: '  Jack', score: { math: 87, english: 93 } };
-
-const transformations = {
-  firstName: R.trim,
-  lastName: R.trim, // Will not get invoked
-  score: { english: R.add(4) },
-};
-
-R.evolve(transformations, jack); 
-// { firstName: 'Jack', score: { math: 87, english: 97 } }
-```
-
-
-
-#### forEachObjIndexed
-
-Iterate over an object, call a function for each key and value
-
-```js
-const printKeyConcatValue = (value, key) => console.log(key + ':' + value);
-R.forEachObjIndexed(printKeyConcatValue, {x: 1, y: 2}); //=> {x: 1, y: 2}
-// logs x:1
-// logs y:2
-```
-
-
+### Object-CheckIf
 
 #### has
 
@@ -1555,6 +1463,111 @@ R.hasPath(['a', 'b'], {}) // false
 
 
 
+#### eqProps
+
+Check if two objects have the same property
+
+```js
+const obj1 = { a: 1, b: 2, c: 3, d: 4 };
+const obj2 = { a: 10, b: 20, c: 3, d: 40 };
+
+R.eqProps('a', obj1, obj2); // true
+R.eqProps('c', obj1, obj2); // true
+```
+
+
+
+#### where
+
+Returns true if each property meets the predicate function
+
+```js
+const pred = R.where({
+  a: R.equals('foo'),
+  b: R.complement(R.equals('bar')),
+  c: R.gt(R.__, 10),
+});
+
+pred({ a: 'foo', b: 'xxx', c: 11, d: null }); // true
+pred({ a: 'foo', b: 'bar', c: 11, d: null }); // false
+pred({ a: 'foo', b: 'xxx', c: 9, d: null }); // false
+```
+
+
+
+#### whereEq
+
+Returns true if the property is equal to the given value
+
+```js
+const pred = R.whereEq({ a: 1, b: 2 });
+
+pred({ a: 1, b: 2, c: 3 }); // true
+pred({ a: 1 }); // false
+pred({ a: 1, b: 1 }); // false
+```
+
+
+
+### Object-Composition
+
+#### assoc
+
+Make a **shallow copy** of an object, adding or rewriting a property
+
+```js
+R.assoc('score', 88, { name: 'Jack', age: 21 }); 
+// { name: 'Jack', age: 21, score: 88 }
+```
+
+
+
+#### assocPath
+
+Make a **shallow copy** of an object, adding or rewriting a property with given path
+
+```js
+R.assocPath(['a', 'b', 'c'], 42, { a: { b: { c: 0 } } }); 
+// { a: { b: { c: 42 } } }
+R.assocPath(['a', 'b', 'c'], 42, { a: 0 });
+// { a: { b: { c: 42 } } }
+```
+
+
+
+#### clone
+
+Make a deep clone
+
+```js
+const objects = [{}, {}, {}];
+const objectsClone = R.clone(objects);
+
+objects === objectsClone; // false
+objects[0] === objectsClone[0]; // false
+```
+
+
+
+#### evolve
+
+The properties in object are processed by a set of functions and return a new shallow copy object
+
+```js
+const jack = { firstName: '  Jack', score: { math: 87, english: 93 } };
+
+const transformations = {
+  firstName: R.trim,
+  lastName: R.trim, // Will not get invoked
+  score: { english: R.add(4) },
+};
+
+R.evolve(transformations, jack); 
+// { firstName: 'Jack', score: { math: 87, english: 97 } }
+```
+
+
+
 #### invert
 
 Invert the key and  value in a object, each value corresponds to an array
@@ -1590,42 +1603,6 @@ R.invertObj(brandPreference);
 ```
 
 
-
-#### keys
-
-Return an array consisting of the property names of the object's own properties
-
-```js
-R.keys({ a: 1, b: 2, c: 3 }); // [ 'a', 'b', 'c' ]
-```
-
-
-
-#### keysIn
-
-Return an array consisting of the property names of the object, including prototype properties
-
-```js
-const F = function () {
-  this.x = 'x';
-};
-F.prototype.y = 'y';
-
-const f = new F();
-R.keysIn(f); // [ 'x', 'y' ]
-```
-
-
-
-#### mapObjIndexed
-
-Object-specific version of **map**,the function is applied to three arguments: **(value, key, object)**
-
-```js
-const xyz = { x: 1, y: 2, z: 3 };
-const prependKeyAndDouble = (value, key, obj) => `${key}${value * 2}`;
-R.mapObjIndexed(prependKeyAndDouble, xyz); // { x: 'x2', y: 'y4', z: 'z6' }
-```
 
 
 
@@ -1740,12 +1717,145 @@ R.map(R.objOf('key'), ['foo', 'bar', 'baz']);
 
 
 
+#### project
+
+Take out multiple properties from a list of objects to form a new array
+
+```js
+const abby = { name: 'Abby', age: 15, score: 83 };
+const fred = { name: 'Fred', age: 17, score: 78 };
+
+const students = [abby, fred];
+
+R.project(['name', 'score'], students);
+// [ { name: 'Abby', score: 83 }, { name: 'Fred', score: 78 } ]
+```
+
+
+
+#### toPairs
+
+Converts an object into an array of key,value arrays
+
+```js
+R.toPairs({ a: 1, b: 2, c: 3 }); // [ [ 'a', 1 ], [ 'b', 2 ], [ 'c', 3 ] ]
+```
+
+
+
+#### toPairsIn
+
+Converts an object into an array of key,value arrays, prototype properties included
+
+```js
+const F = function () {
+  this.x = 'x';
+};
+
+F.prototype.y = 'y';
+
+const f = new F();
+
+R.toPairsIn(f); // [ [ 'x', 'x' ], [ 'y', 'y' ] ]
+```
+
+
+
+### Object-Filter
+
+#### dissoc
+
+Return a object with specified property deleted
+
+```js
+R.dissoc('b', { a: 1, b: 2, c: 3 }); // { a: 1, c: 3 }
+```
+
+
+
+#### dissocPaths
+
+Return a object with specified property deleted by the given path
+
+```js
+R.dissocPath(['a', 'b', 'c'], {a: {b: {c: 42}}}); // {a: {b: {}}}
+```
+
+
+
 #### omit
 
 Remove properties
 
 ```js
 R.omit(['a', 'c'], { a: 1, b: 2, c: 3, d: 4 }); // { b: 2, d: 4 }
+```
+
+
+
+#### pick
+
+Return a new object consisting of the specified properties
+
+```js
+R.pick(['a', 'c'], { a: 1, b: 2, c: 3 }); // { a: 1, c: 3 }
+
+R.pick(['a', 'd', 'f'], { a: 1, b: 2, c: 3 }); // { a: 1 }
+```
+
+
+
+#### pickAll
+
+Return a new object consisting of the specified properties includes a `key: undefined` for properties that don't exist
+
+```js
+R.pickAll(['a', 'c'], { a: 1, b: 2, c: 3 }); // { a: 1, c: 3 }
+
+R.pickAll(['a', 'd', 'f'], { a: 1, b: 2, c: 3 });
+// { a: 1, d: undefined, f: undefined }
+```
+
+
+
+#### pickBy
+
+Return a new object that satisfies the predicate function
+
+```js
+const biggerThan2 = (val, key) => val > 2;
+const isUpperCase = (val, key) => key.toUpperCase() === key;
+
+R.pickBy(biggerThan2, { a: 1, B: 2, c: 3, D: 4 }); // { c: 3, D: 4 }
+R.pickBy(isUpperCase, { a: 1, B: 2, c: 3, D: 4 }); // { B: 2, D: 4 }
+```
+
+
+
+### Object-Find
+
+#### keys
+
+Return an array consisting of the property names of the object's own properties
+
+```js
+R.keys({ a: 1, b: 2, c: 3 }); // [ 'a', 'b', 'c' ]
+```
+
+
+
+#### keysIn
+
+Return an array consisting of the property names of the object, including prototype properties
+
+```js
+const F = function () {
+  this.x = 'x';
+};
+F.prototype.y = 'y';
+
+const f = new F();
+R.keysIn(f); // [ 'x', 'y' ]
 ```
 
 
@@ -1800,61 +1910,6 @@ R.paths(
 
 
 
-#### pick
-
-Return a new object consisting of the specified properties
-
-```js
-R.pick(['a', 'c'], { a: 1, b: 2, c: 3 }); // { a: 1, c: 3 }
-
-R.pick(['a', 'd', 'f'], { a: 1, b: 2, c: 3 }); // { a: 1 }
-```
-
-
-
-#### pickAll
-
-Return a new object consisting of the specified properties includes a `key: undefined` for properties that don't exist
-
-```js
-R.pickAll(['a', 'c'], { a: 1, b: 2, c: 3 }); // { a: 1, c: 3 }
-
-R.pickAll(['a', 'd', 'f'], { a: 1, b: 2, c: 3 });
-// { a: 1, d: undefined, f: undefined }
-```
-
-
-
-#### pickBy
-
-Return a new object that satisfies the predicate function
-
-```js
-const biggerThan2 = (val, key) => val > 2;
-const isUpperCase = (val, key) => key.toUpperCase() === key;
-
-R.pickBy(biggerThan2, { a: 1, B: 2, c: 3, D: 4 }); // { c: 3, D: 4 }
-R.pickBy(isUpperCase, { a: 1, B: 2, c: 3, D: 4 }); // { B: 2, D: 4 }
-```
-
-
-
-#### project
-
-Take out multiple properties from a list of objects to form a new array
-
-```js
-const abby = { name: 'Abby', age: 15, score: 83 };
-const fred = { name: 'Fred', age: 17, score: 78 };
-
-const students = [abby, fred];
-
-R.project(['name', 'score'], students);
-// [ { name: 'Abby', score: 83 }, { name: 'Fred', score: 78 } ]
-```
-
-
-
 #### prop
 
 Return the specified property of the object
@@ -1901,34 +1956,6 @@ fullName({ first: 'James', age: 33, last: 'bond' }); // James bond
 
 
 
-#### toPairs
-
-Converts an object into an array of key,value arrays
-
-```js
-R.toPairs({ a: 1, b: 2, c: 3 }); // [ [ 'a', 1 ], [ 'b', 2 ], [ 'c', 3 ] ]
-```
-
-
-
-#### toPairsIn
-
-Converts an object into an array of key,value arrays, prototype properties included
-
-```js
-const F = function () {
-  this.x = 'x';
-};
-
-F.prototype.y = 'y';
-
-const f = new F();
-
-R.toPairsIn(f); // [ [ 'x', 'x' ], [ 'y', 'y' ] ]
-```
-
-
-
 #### values
 
 Return an array consisting of the property values of an object
@@ -1956,115 +1983,252 @@ R.valuesIn(f); // [ 1, 2 ]
 
 
 
-#### where
+### Lens
 
-Returns true if each property meets the predicate function
+#### lens
+
+Focus on a specific part of a larger data structure. This function often replaced with  `R.lensProp`, `R.lensPath`, `lensIndex`.it work with these three functions: `R.view`,  `R.set`, `R.over`
 
 ```js
-const pred = R.where({
-  a: R.equals('foo'),
-  b: R.complement(R.equals('bar')),
-  c: R.gt(R.__, 10),
-});
+const person = {
+  name: 'Jack',
+  score: {
+    math: 78,
+    english: 88,
+  },
+};
 
-pred({ a: 'foo', b: 'xxx', c: 11, d: null }); // true
-pred({ a: 'foo', b: 'bar', c: 11, d: null }); // false
-pred({ a: 'foo', b: 'xxx', c: 9, d: null }); // false
+const nameLens = R.lens(R.prop('name'), R.assoc('name'));
+const englishScoreLens = R.lens(
+  R.path(['score', 'english']),
+  assocPath(['score', 'english'])
+);
+
+R.view(nameLens, person); // Jack
+R.view(englishScoreLens, person); // 88
+R.set(englishScoreLens, 94, person); // { name: 'Jack', score: { math: 78, english: 94 } }
+R.over(englishScoreLens, R.inc, person); // { name: 'Jack', score: { math: 78, english: 89 } }
 ```
 
 
 
-#### whereEq
+#### lensIndex
 
-Returns true if the property is equal to the given value
+Returns a lens whose focus is a specified index
 
 ```js
-const pred = R.whereEq({ a: 1, b: 2 });
+const headLens = R.lensIndex(0);
+const arr = ['a', 'b', 'c'];
 
-pred({ a: 1, b: 2, c: 3 }); // true
-pred({ a: 1 }); // false
-pred({ a: 1, b: 1 }); // false
+R.view(headLens, arr); // a
+R.set(headLens, 'x', arr); // [ 'x', 'b', 'c' ]
+R.over(headLens, R.toUpper, arr); // [ 'A', 'b', 'c' ]
+```
+
+
+
+#### lensPath
+
+Returns a lens whose focus is the specified path
+
+```js
+const xHeadYLens = R.lensPath(['x', 0, 'y']);
+const arr = {
+  x: [
+    { y: 1, z: 2 },
+    { y: 3, z: 4 },
+  ],
+};
+
+R.view(xHeadYLens, arr); // 1
+R.set(xHeadYLens, 99, arr); // { x: [ { y: 99, z: 2 }, { y: 3, z: 4 } ] }
+R.over(xHeadYLens, R.negate, arr); // { x: [ { y: -1, z: 2 }, { y: 3, z: 4 } ] }
+```
+
+
+
+#### lensProp
+
+Returns a lens whose focus is the specified property
+
+```js
+const xLens = R.lensProp('x');
+const arr = { x: 1, y: 2 };
+
+R.view(xLens, arr); // 1
+R.set(xLens, 2, arr); // { x: 2, y: 2 }
+R.over(xLens, R.negate, arr); // { x: -1, y: 2 }
+```
+
+
+
+### Object-Traversal
+
+#### forEachObjIndexed
+
+Iterate over an object, call a function for each key and value
+
+```js
+const printKeyConcatValue = (value, key) => console.log(key + ':' + value);
+R.forEachObjIndexed(printKeyConcatValue, {x: 1, y: 2}); //=> {x: 1, y: 2}
+// logs x:1
+// logs y:2
+```
+
+
+
+#### mapObjIndexed
+
+Object-specific version of **map**,the function is applied to three arguments: **(value, key, object)**
+
+```js
+const xyz = { x: 1, y: 2, z: 3 };
+const prependKeyAndDouble = (value, key, obj) => `${key}${value * 2}`;
+R.mapObjIndexed(prependKeyAndDouble, xyz); // { x: 'x2', y: 'y4', z: 'z6' }
 ```
 
 
 
 ## 5. Function
 
-#### mapIndex
+### Function-Composition
 
-Similar to **map**, but with index position
+#### compose
+
+Performs right-to-left composition, the last argument may have any arity, the remaining arguments must be unary
 
 ```js
-const mapIndexed = R.addIndex(R.map);
+const greeting = (firstName, lastName) =>
+  `Hi! My name is ${firstName} ${lastName}`;
 
-mapIndexed((val, idx) => `${idx}-${val}`, ['a', 'b', 'c']);
-// [ '0-a', '1-b', '2-c' ]
+const yellGreeting = R.compose(R.toUpper, greeting);
+
+yellGreeting('James', 'Bond'); // HI! MY NAME IS JAMES BOND
 ```
 
 
 
-#### always
+#### composeWith
 
-Returns a function that always returns the given value
+Performing compose while the result meets a predict condition
 
 ```js
-const t = R.always('Tee');
-t() // Tee
+const isOdd = n => n % 2 === 1;
+
+const composeWhileNotOdd = R.composeWith((f, res) =>
+  isOdd(res) ? res : f(res)
+);
+
+composeWhileNotOdd([R.inc, R.prop('age')])({ age: 1 }); // 1
+composeWhileNotOdd([R.inc, R.prop('age')])({ age: 0 }); // 1
 ```
 
 
 
-#### ap
+#### o
 
-An array execute a set of functions and synthesize the results into a new array
+**o**  is a curried composition function like **compose**, the difference is the rightmost function passed to **o** will be invoked with only one argument and it limited to accepting only 2 unary functions
 
 ```js
-R.ap([R.multiply(2), R.add(2)])([1, 2, 3]);
-// [ 2, 4, 6, 3, 4, 5 ]
-
-R.ap([R.concat('tasty '), R.toUpper])(['pizza', 'salad']);
-// [ 'tasty pizza', 'tasty salad', 'PIZZA', 'SALAD' ]
+R.o(R.multiply(10), R.add(10))(-5); // 50
 ```
 
 
 
-#### apply
+#### pipe
 
-Converts the array into a sequence of parameters passing into the specified function
+Performs left-to-right composition, the first argument may have any arity, the remaining arguments must be unary
 
 ```js
-R.apply(Math.max)([2, 3, 4]); // 4
+const f = R.pipe(R.add, R.negate, R.inc);
+
+f(3, 4); // -6
 ```
 
 
 
-#### applySpec
+#### pipeWith
 
-TODO: Don't understand this function
+Performing pipe while the result meets a predict condition
 
 ```js
-const getMetrics = R.applySpec({
-  sum: R.add,
-  sub: R.subtract,
-  nested: { multiply: R.multiply, divide: R.divide },
-});
+const pipeWhileBiggerThan0 = R.pipeWith((f, res) => (res > 0 ? f(res) : res));
 
-getMetrics(2, 4); // { sum: 6, sub: -2, nested: { multiply: 8, divide: 0.5 } }
+const f = pipeWhileBiggerThan0([R.negate, R.inc]);
+f(3); // -3
+f(-3); // 4
 ```
 
 
 
-#### applyTo
+#### converge
 
-Takes a value and applies a function to it
+It accepts two parameters, the first is a function, the second is an array of functions. The first function takes the result of array function as it's parameters
 
 ```js
-const t42 = R.applyTo(42);
-t42(R.identity); // 42
-t42(R.add(1)); // 43
+const average = R.converge(R.divide, [R.sum, R.length]);
+average([1, 2, 3, 4]); // 2.5
+
+const strangeConcat = R.converge(R.concat, [R.toUpper, R.toLower]);
+strangeConcat('Yodel'); // YODELyodel
 ```
 
 
+
+### Currying
+
+#### curry
+
+It converts a multi-parameter function into a form of a single-parameter
+
+```js
+const addFourNumbers = (a, b, c, d) => a + b + c + d;
+
+const curriedAddFourNumbers = R.curry(addFourNumbers);
+
+const add5 = curriedAddFourNumbers(2, 3);
+const add8 = add5(3);
+
+add8(2); // 10
+```
+
+
+
+#### partial
+
+Allows a multiple-parameter function to accept an array specifying the leftmost part of the parameter
+
+```js
+const multiply2 = (a, b) => a * b;
+const double = R.partial(multiply2, [2]);
+double(3); // 6
+
+const greet = (salutation, title, firstName, lastName) =>
+  `${salutation}, ${title} ${firstName} ${lastName}!`;
+
+const sayHello = R.partial(greet, ['Hello']);
+const sayHelloToMs = R.partial(sayHello, ['Mr.']);
+sayHelloToMs('Janes', 'Bond'); // Hello, Mr. Janes Bond!
+```
+
+
+
+#### partialRight
+
+Allows a multiple-parameter function to accept an array specifying the rightmost part of the parameter
+
+```js
+var greet = (salutation, title, firstName, lastName) =>
+  salutation + ', ' + title + ' ' + firstName + ' ' + lastName + '!';
+
+const greetJanesBond = R.partialRight(greet, ['Janes', 'Bond']);
+const greetMrJanesBond = R.partialRight(greetJanesBond, ['Mr']);
+greetMrJanesBond('Hello'); // Hello, Mr Janes Bond!
+```
+
+
+
+### Function-Sort
 
 #### ascend
 
@@ -2100,6 +2264,118 @@ const people = [
 
 R.sort(byAge, people);
 // [ { name: 'Peter', age: 78 },  { name: 'Emma', age: 70 },  { name: 'Mikhail', age: 64 } ]
+```
+
+
+
+#### comparator
+
+Makes a comparator function
+
+```js
+const byAge = R.comparator((a, b) => a.age < b.age);
+
+const people = [
+  { name: 'Emma', age: 70 },
+  { name: 'Peter', age: 78 },
+  { name: 'Mikhail', age: 62 },
+];
+
+R.sort(byAge, people);
+// [ { name: 'Mikhail', age: 62 },  { name: 'Emma', age: 70 },  { name: 'Peter', age: 78 } ]
+```
+
+
+
+### Function-Others
+
+#### mapIndex
+
+Similar to **map**, but with index position
+
+```js
+const mapIndexed = R.addIndex(R.map);
+
+mapIndexed((val, idx) => `${idx}-${val}`, ['a', 'b', 'c']);
+// [ '0-a', '1-b', '2-c' ]
+```
+
+
+
+#### ap
+
+An array execute a set of functions and synthesize the results into a new array
+
+```js
+R.ap([R.multiply(2), R.add(2)])([1, 2, 3]);
+// [ 2, 4, 6, 3, 4, 5 ]
+
+R.ap([R.concat('tasty '), R.toUpper])(['pizza', 'salad']);
+// [ 'tasty pizza', 'tasty salad', 'PIZZA', 'SALAD' ]
+```
+
+
+
+#### apply
+
+Converts the array into a sequence of parameters passing into the specified function
+
+```js
+R.apply(Math.max)([2, 3, 4]); // 4
+```
+
+
+
+#### applySpec
+
+Calling a object property's function with given arguments recursively and return the result object
+
+```js
+const getMetrics = R.applySpec({
+  sum: R.add,
+  sub: R.subtract,
+  nested: { multiply: R.multiply, divide: R.divide },
+});
+
+getMetrics(2, 4); // { sum: 6, sub: -2, nested: { multiply: 8, divide: 0.5 } }
+```
+
+
+
+#### applyTo
+
+Takes a value and applies a function to it
+
+```js
+const t42 = R.applyTo(42);
+t42(R.identity); // 42
+t42(R.add(1)); // 43
+```
+
+
+
+#### unapply
+
+The reverse of **apply**
+
+```js
+R.unapply(JSON.stringify)(1, 2, 3); // [1,2,3]
+```
+
+
+
+#### unary
+
+It accepts only 1 parameter when executing the function
+
+```js
+const takesTwoArgs = (a, b) => [a, b];
+takesTwoArgs.length; // 2
+takesTwoArgs(1, 2); // [ 1, 2 ]
+
+const takesOneArg = R.unary(takesTwoArgs);
+takesOneArg.length; // 1
+takesOneArg(1, 2); // [ 1, undefined ]
 ```
 
 
@@ -2150,57 +2426,6 @@ R.pipe( R.assoc('a', 2), R.tap(console.log), R.assoc('a', 3), R.tap(console.log)
 
 
 
-#### comparator
-
-Makes a comparator function
-
-```js
-const byAge = R.comparator((a, b) => a.age < b.age);
-
-const people = [
-  { name: 'Emma', age: 70 },
-  { name: 'Peter', age: 78 },
-  { name: 'Mikhail', age: 62 },
-];
-
-R.sort(byAge, people);
-// [ { name: 'Mikhail', age: 62 },  { name: 'Emma', age: 70 },  { name: 'Peter', age: 78 } ]
-```
-
-
-
-#### compose
-
-Performs right-to-left composition, the last argument may have any arity, the remaining arguments must be unary
-
-```js
-const greeting = (firstName, lastName) =>
-  `Hi! My name is ${firstName} ${lastName}`;
-
-const yellGreeting = R.compose(R.toUpper, greeting);
-
-yellGreeting('James', 'Bond'); // HI! MY NAME IS JAMES BOND
-```
-
-
-
-#### composeWith
-
-Performing compose while the result meets a predict condition
-
-```js
-const isOdd = n => n % 2 === 1;
-
-const composeWhileNotOdd = R.composeWith((f, res) =>
-  isOdd(res) ? res : f(res)
-);
-
-composeWhileNotOdd([R.inc, R.prop('age')])({ age: 1 }); // 1
-composeWhileNotOdd([R.inc, R.prop('age')])({ age: 0 }); // 1
-```
-
-
-
 #### constructd
 
 Wraps a constructor function so we can use it without **new** keyword
@@ -2223,33 +2448,13 @@ pig.sighting === dog.sighting; // true
 
 
 
-#### converge
+#### always
 
-It accepts two parameters, the first is a function, the second is an array of functions. The first function takes the result of array function as it's parameters
-
-```js
-const average = R.converge(R.divide, [R.sum, R.length]);
-average([1, 2, 3, 4]); // 2.5
-
-const strangeConcat = R.converge(R.concat, [R.toUpper, R.toLower]);
-strangeConcat('Yodel'); // YODELyodel
-```
-
-
-
-#### curry
-
-It converts a multi-parameter function into a form of a single-parameter
+Returns a function that always returns the given value
 
 ```js
-const addFourNumbers = (a, b, c, d) => a + b + c + d;
-
-const curriedAddFourNumbers = R.curry(addFourNumbers);
-
-const add5 = curriedAddFourNumbers(2, 3);
-const add8 = add5(3);
-
-add8(2); // 10
+const t = R.always('Tee');
+t() // Tee
 ```
 
 
@@ -2359,16 +2564,6 @@ R.nthArg(-1)('a', 'b', 'c'); // c
 
 
 
-#### o
-
-**o**  is a curried composition function like **compose**, the difference is the rightmost function passed to **o** will be invoked with only one argument and it limited to accepting only 2 unary functions
-
-```js
-R.o(R.multiply(10), R.add(10))(-5); // 50
-```
-
-
-
 #### of
 
 Returns a singleton array containing the value provided
@@ -2392,66 +2587,6 @@ addOnce(99); // 11
 
 
 
-#### partial
-
-Allows a multiple-parameter function to accept an array specifying the leftmost part of the parameter
-
-```js
-const multiply2 = (a, b) => a * b;
-const double = R.partial(multiply2, [2]);
-double(3); // 6
-
-const greet = (salutation, title, firstName, lastName) =>
-  `${salutation}, ${title} ${firstName} ${lastName}!`;
-
-const sayHello = R.partial(greet, ['Hello']);
-const sayHelloToMs = R.partial(sayHello, ['Mr.']);
-sayHelloToMs('Janes', 'Bond'); // Hello, Mr. Janes Bond!
-```
-
-
-
-#### partialRight
-
-Allows a multiple-parameter function to accept an array specifying the rightmost part of the parameter
-
-```js
-var greet = (salutation, title, firstName, lastName) =>
-  salutation + ', ' + title + ' ' + firstName + ' ' + lastName + '!';
-
-const greetJanesBond = R.partialRight(greet, ['Janes', 'Bond']);
-const greetMrJanesBond = R.partialRight(greetJanesBond, ['Mr']);
-greetMrJanesBond('Hello'); // Hello, Mr Janes Bond!
-```
-
-
-
-#### pipe
-
-Performs left-to-right composition, the first argument may have any arity, the remaining arguments must be unary
-
-```js
-const f = R.pipe(R.add, R.negate, R.inc);
-
-f(3, 4); // -6
-```
-
-
-
-#### pipeWith
-
-Performing pipe while the result meets a predict condition
-
-```js
-const pipeWhileBiggerThan0 = R.pipeWith((f, res) => (res > 0 ? f(res) : res));
-
-const f = pipeWhileBiggerThan0([R.negate, R.inc]);
-f(3); // -3
-f(-3); // 4
-```
-
-
-
 #### thunkify
 
 Creates a thunk out of a function, a thunk delays a calculation until its result is needed
@@ -2459,32 +2594,6 @@ Creates a thunk out of a function, a thunk delays a calculation until its result
 ```js
 R.thunkify(R.inc)(41)(); // 42
 R.thunkify((a, b) => a + b)(25, 17)(); // 42
-```
-
-
-
-#### unapply
-
-The reverse of **apply**
-
-```js
-R.unapply(JSON.stringify)(1, 2, 3); // [1,2,3]
-```
-
-
-
-#### unary
-
-It accepts only 1 parameter when executing the function
-
-```js
-const takesTwoArgs = (a, b) => [a, b];
-takesTwoArgs.length; // 2
-takesTwoArgs(1, 2); // [ 1, 2 ]
-
-const takesOneArg = R.unary(takesTwoArgs);
-takesOneArg.length; // 1
-takesOneArg(1, 2); // [ 1, undefined ]
 ```
 
 
@@ -2570,16 +2679,6 @@ TODO: To be added..
 
 
 #### [bind](https://ramdajs.com/docs/#bind)
-
-TODO: Don't understand this function
-
-```js
-TODO: To be added..
-```
-
-
-
-#### [over](https://ramdajs.com/docs/#over)
 
 TODO: Don't understand this function
 
@@ -3024,7 +3123,7 @@ TODO: To be added..
 
 #### allPass
 
-Return **true**  when the **second argument** meet all the criteria in the **function array** as the first argument
+Return **true**  when the **input** meet all the criteria in the **function array** as the first argument
 
 ```js
 const isBoy = R.propEq('gender', 'boy');
@@ -3042,18 +3141,6 @@ isBoyCasher(Thomas); // true
 isBoyCasher(Maria); // false
 
 R.filter(isBoyCasher, [Mike, Jack, Thomas, Maria]); // [Mike, Thomas]
-```
-
-
-
-#### and
-
-Return true if both arguments are true
-
-```js
-R.and(true, true); // true
-R.and(true, false); // false
-R.and(5 > 2, 3 < 1); // false
 ```
 
 
@@ -3082,6 +3169,18 @@ isBoyOrCasher(Lily); // false
 
 
 
+#### and
+
+Return true if both arguments are true
+
+```js
+R.and(true, true); // true
+R.and(true, false); // false
+R.and(5 > 2, 3 < 1); // false
+```
+
+
+
 #### both
 
 Return **true** if the third parameters **both meets the criteria** of  first two functions, otherwise return false
@@ -3100,7 +3199,7 @@ f(14); // true
 
 #### complement
 
-Returns a new function, it will return **false** if the **original function** returns **true**, return **true** if the **original function** returns **false**,
+Returns a new function, it will return **false** if the **original function** returns **true**, return **true** if the **original function** returns **false**
 
 ```js
 const gt10 = x => x > 10;
@@ -3114,7 +3213,7 @@ lte10(11); // false
 
 #### cond
 
-Takes an array of **[predicate, transformer] pairs**, the second argument **applied to each of predicates**, if returns the 'truthy' value, then stop and active the **current transformer**
+Takes an array of **[predicate, transformer] pairs**, the second argument **applied to each of predicates**, if returns the **truthy** value, then stop and active the **current transformer**
 
 ```js
 const fn = R.cond([
