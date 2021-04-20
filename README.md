@@ -1,8 +1,12 @@
 ## Array methods
   - [Array methods](array/array.md)
 
-## Ramda methods
+## Ramda
   - [Ramda methods](ramda/ramda.md)
+  - Related topics
+    - [Pipe / Compose](https://github.com/norvca/dailyProgress/issues/92)
+    - [Curry](https://github.com/norvca/dailyProgress/issues/94)
+    - [Pointfree](https://github.com/norvca/dailyProgress/issues/95)
 
 ## Problem solving patterns
   - [Divide And Conquer Pattern](problemSolvingPatterns/divideAndConquerPattern)
