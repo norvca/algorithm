@@ -95,6 +95,18 @@ triple(4); // 12
 
 
 
+#### product
+
+Multiplies together all the elements of a list
+
+```js
+R.product([2,4,6,8,100,1]); // 38400
+```
+
+
+
+
+
 #### divide
 
 Divides two numbers
@@ -107,16 +119,6 @@ half(20); // 10
 
 const reciprocal = R.divide(1, R.__);
 reciprocal(5) // 0.2
-```
-
-
-
-#### product
-
-Multiplies together all the elements of a list
-
-```js
-R.product([2,4,6,8,100,1]); // 38400
 ```
 
 
