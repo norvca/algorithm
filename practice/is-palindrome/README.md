@@ -1,0 +1,1 @@
+To se if and string is equal to its reverse
