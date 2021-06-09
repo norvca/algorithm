@@ -1,6 +1,8 @@
-// Time complexity: O(n)
+// Time complexity: O(n * n logn)
+// for loop is O(n) and the insider sort method is n logn
 
-// Space complexity: O(1)
+// Space complexity: O(n)
+// n keys in hash table
 
 // Solution
 // 1. Create a hash table
