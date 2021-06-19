@@ -1,5 +1,5 @@
-// Time complexity: O(n * n logn)
-// for loop is O(n) and the insider sort method is n logn
+// Time complexity: O(n * n logN)
+// for loop is O(n) and the insider sort method is  O(n * n logN)
 
 // Space complexity: O(n)
 // n keys in hash table
