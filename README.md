@@ -14,10 +14,10 @@
   - [Multi Pointer Pattern](problemSolvingPatterns/multiPointerPattern)
   - [Sliding Window Pattern](problemSolvingPatterns/slidingWindowPattern)
 
-## 数据结构
+## Data Structure
+  - [Linked list](dataStructure/linked-list/README.md)
   - [栈](dataStructure/stack.md)
   - [队列](dataStructure/queue.md)
-  - [链表](dataStructure/linkedList.md)
   - [集合](dataStructure/set.md)
   - [字典](dataStructure/dictionary.md)
   - [二叉搜索树](dataStructure/binarySearchTree.md)
