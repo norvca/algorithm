@@ -15,7 +15,7 @@
   - [Sliding Window Pattern](problemSolvingPatterns/slidingWindowPattern)
 
 ## Data Structure
-  - [Linked list](dataStructure/linked-list/README.md)
+  - [Linked list](dataStructure/linked-list)
   - [栈](dataStructure/stack.md)
   - [队列](dataStructure/queue.md)
   - [集合](dataStructure/set.md)
