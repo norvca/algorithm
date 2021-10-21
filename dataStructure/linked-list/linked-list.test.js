@@ -197,7 +197,7 @@ describe('remove', () => {
 describe('reverse', () => {
   test('no node', () => {
     let ll = new LinkedList();
-    ll.reverse();
+    expect(ll.reverse()).toBe(ll);
   });
 
   test('reverse the linked list', () => {
