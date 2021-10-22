@@ -16,12 +16,10 @@
 
 ## Data Structure
   - [Linked list](dataStructure/linked-list)
-  - [Doubly Linked list](dataStructure/double-linked-list)
+  - [Doubly linked List](dataStructure/double-linked-list)
   - [Stack](dataStructure/stack)
   - [Queue](dataStructure/queue)
-  - [集合](dataStructure/set.md)
-  - [字典](dataStructure/dictionary.md)
-  - [二叉搜索树](dataStructure/binarySearchTree.md)
+  - [Binary search tree](dataStructure/BTS)
 
 ##  排序算法
   - [冒泡排序](sort/bubbleSort.md)
