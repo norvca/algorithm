@@ -18,7 +18,7 @@
   - [Linked list](dataStructure/linked-list)
   - [Doubly Linked list](dataStructure/double-linked-list)
   - [Stack](dataStructure/stack)
-  - [队列](dataStructure/queue.md)
+  - [Queue](dataStructure/queue)
   - [集合](dataStructure/set.md)
   - [字典](dataStructure/dictionary.md)
   - [二叉搜索树](dataStructure/binarySearchTree.md)
