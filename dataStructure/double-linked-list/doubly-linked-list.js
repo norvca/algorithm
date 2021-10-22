@@ -172,9 +172,9 @@ class DoublyLinkedList {
 
   // ===== Test Methods =======
   static fromValues(...values) {
-    const ll = new DoublyLinkedList();
-    values.forEach(value => ll.push(value));
-    return ll;
+    const dll = new DoublyLinkedList();
+    values.forEach(value => dll.push(value));
+    return dll;
   }
   // ===== Test Methods =======
 }
