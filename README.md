@@ -17,7 +17,7 @@
 ## Data Structure
   - [Linked list](dataStructure/linked-list)
   - [Doubly Linked list](dataStructure/double-linked-list)
-  - [栈](dataStructure/stack.md)
+  - [Stack](dataStructure/stack)
   - [队列](dataStructure/queue.md)
   - [集合](dataStructure/set.md)
   - [字典](dataStructure/dictionary.md)
