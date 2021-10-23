@@ -6,7 +6,7 @@
   - Related topics
     - [Pipe / Compose](https://github.com/norvca/dailyProgress/issues/92)
     - [Curry](https://github.com/norvca/dailyProgress/issues/94)
-    - [Pointfree](https://github.com/norvca/dailyProgress/issues/95)
+    - [Point-free](https://github.com/norvca/dailyProgress/issues/95)
 
 ## Problem solving patterns
   - [Divide And Conquer Pattern](problemSolvingPatterns/divideAndConquerPattern)
@@ -21,6 +21,7 @@
   - [Queue](dataStructure/queue)
   - [Binary search tree](dataStructure/BTS)
   - [Hash table](dataStructure/hash-table)
+  - [Graph](dataStructure/graph)
 
 ##  排序算法
   - [冒泡排序](sort/bubbleSort.md)
