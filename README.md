@@ -20,6 +20,7 @@
   - [Stack](dataStructure/stack)
   - [Queue](dataStructure/queue)
   - [Binary search tree](dataStructure/BTS)
+  - [Hash table](dataStructure/hash-table)
 
 ##  排序算法
   - [冒泡排序](sort/bubbleSort.md)
