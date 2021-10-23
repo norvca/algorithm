@@ -15,11 +15,27 @@ class HashTable {
 
   set(key, value) {
     const index = this._hash(key);
+    const bucket = this.dataMap[index];
 
-    if (!this.dataMap[index]) {
-      this.dataMap[index] = [];
+    // if there is index collision
+    if (bucket) {
+      // find if the key is already in the bucket
+      // reset its value
+      for (let i = 0; i < bucket.length; i++) {
+        if (key === bucket[i][0]) {
+          bucket[i][1] = value;
+          return this;
+        }
+      }
+
+      // if key is not in the bucket
+      // push key/value pair into the bucket
+      bucket.push([key, value]);
+      return this;
     }
 
+    // if there is no index collision
+    this.dataMap[index] = [];
     this.dataMap[index].push([key, value]);
     return this;
   }
