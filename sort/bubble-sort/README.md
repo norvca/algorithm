@@ -1,13 +1,8 @@
 ## Intro
-- Starting with first element
-  - Comparing it to the next element
-    - If it's bigger than the next, swap them
-      - move to the next element, keep comparing till the last element
-    - If not, do nothing  
-      - move to the next element, keep comparing till the last element
-- Repeat step 1 till all the elements are sorted
-
+- Loop the array from first element
+- Comparing current element with the next element
+  - If it's bigger than the next, swap them
+  - If not, do nothing  
+     
 ## Complexity
 O(n²)
-
-

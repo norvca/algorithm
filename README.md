@@ -25,5 +25,6 @@
 
 ## Algorithms
   - [Bubble sort](sort/bubble-sort)
+  - [Selection sort](sort/selection-sort)
 
 

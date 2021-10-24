@@ -1,23 +1,21 @@
-function bubbleSort(array) {
-  const sortedArr = [...array];
+function bubbleSort(originalArray) {
+  const array = [...originalArray];
 
   // 4. Each loop we'll ignore the last item
   // cause it's already the biggest one
-  for (let i = sortedArr.length - 1; i > 0; i--) {
+  for (let i = array.length - 1; i > 0; i--) {
     // 3. loop every item and try swap
     // so the biggest item will float to the top like a bubble
     for (let j = 0; j < i; j++) {
       // 1. if current is bigger than the next item,
-      if (sortedArr[j] > sortedArr[j + 1]) {
+      if (array[j] > array[j + 1]) {
         // 2. swap it
-        let temp = sortedArr[j];
-        sortedArr[j] = sortedArr[j + 1];
-        sortedArr[j + 1] = temp;
+        [array[j], array[j + 1]] = [array[j + 1], array[j]];
       }
     }
   }
 
-  return sortedArr;
+  return array;
 }
 
 module.exports = bubbleSort;
