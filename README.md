@@ -24,7 +24,7 @@
   - [Graph](dataStructure/graph)
 
 ##  排序算法
-  - [冒泡排序](sort/bubbleSort.md)
+  - [冒泡排序](sort/bubble-sort.js)
   - [选择排序](sort/selectionSort.md)
   - 插入排序
   - 归并排序
