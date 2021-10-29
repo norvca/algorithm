@@ -80,6 +80,65 @@ class BTS {
     return temp.value;
   }
 
+  BFS() {
+    let currentNode = this.root;
+    const queue = [];
+    const result = [];
+    queue.push(currentNode);
+
+    while (queue.length) {
+      currentNode = queue.shift();
+      result.push(currentNode.value);
+      if (currentNode.left) {
+        queue.push(currentNode.left);
+      }
+      if (currentNode.right) {
+        queue.push(currentNode.right);
+      }
+    }
+
+    return result;
+  }
+
+  DFSPreOrder() {
+    const result = [];
+
+    function traversal(currentNode) {
+      result.push(currentNode.value);
+      if (currentNode.left) traversal(currentNode.left);
+      if (currentNode.right) traversal(currentNode.right);
+    }
+    traversal(this.root);
+
+    return result;
+  }
+
+  DFSPostOrder() {
+    const result = [];
+
+    function traversal(currentNode) {
+      if (currentNode.left) traversal(currentNode.left);
+      if (currentNode.right) traversal(currentNode.right);
+      result.push(currentNode.value);
+    }
+    traversal(this.root);
+
+    return result;
+  }
+
+  DFSInOrder() {
+    const result = [];
+
+    function traversal(currentNode) {
+      if (currentNode.left) traversal(currentNode.left);
+      result.push(currentNode.value);
+      if (currentNode.right) traversal(currentNode.right);
+    }
+    traversal(this.root);
+
+    return result;
+  }
+
   // ===== Test Methods =======
   static fromValues(...values) {
     const bts = new BTS();

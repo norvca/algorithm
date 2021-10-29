@@ -56,3 +56,26 @@ describe('findMin and findMax', () => {
     expect(bts.findMax()).toBe(63);
   });
 });
+
+describe('tree traversal', () => {
+  let bts;
+  beforeEach(() => {
+    bts = BTS.fromValues(33, 21, 5, 63, 26);
+  });
+
+  test('breath first search', () => {
+    expect(bts.BFS()).toEqual([33, 21, 63, 5, 26]);
+  });
+
+  test('Depth first search pre order', () => {
+    expect(bts.DFSPreOrder()).toEqual([33, 21, 5, 26, 63]);
+  });
+
+  test('Depth first search post order', () => {
+    expect(bts.DFSPostOrder()).toEqual([5, 26, 21, 63, 33]);
+  });
+
+  test('Depth first search in order', () => {
+    expect(bts.DFSInOrder()).toEqual([5, 21, 26, 33, 63]);
+  });
+});
