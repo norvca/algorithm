@@ -26,4 +26,4 @@ function quickSort(array, startIndex = 0, endIndex = array.length - 1) {
   return array;
 }
 
-module.exports = quickSort;
+module.exports = { quickSort, partition };
