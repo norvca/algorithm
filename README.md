@@ -24,5 +24,7 @@
   - [Bubble sort](sort/bubble-sort)
   - [Selection sort](sort/selection-sort)
   - [Insertion sort](sort/insertion-sort)
+  - [Merge sort](sort/merge-sort)
+  - [Quick sort](sort/quick-sort)
 
 
