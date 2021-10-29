@@ -1,6 +1,3 @@
-## Array methods
-  - [Array methods](array/array.md)
-
 ## Ramda
   - [Ramda methods](ramda/ramda.md)
   - Related topics
