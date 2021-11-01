@@ -153,10 +153,16 @@ describe('insert', () => {
     expect(dll.insert(5, 100)).toBeUndefined();
   });
 
-  test('index = 0', () => {
+  test('index === 0', () => {
     dll.insert(0, 100);
     expect(dll.head.value).toBe(100);
     expect(dll.head.next.value).toBe(2);
+    expect(dll.length).toBe(5);
+  });
+
+  test('index === this.length', () => {
+    dll.insert(4, 100);
+    expect(dll.tail.value).toBe(100);
     expect(dll.length).toBe(5);
   });
 

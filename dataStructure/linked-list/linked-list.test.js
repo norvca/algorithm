@@ -140,6 +140,11 @@ describe('insert', () => {
     expect(ll.insert(-1, 100)).toBe(undefined);
   });
 
+  test('index === ll.length', () => {
+    ll.insert(4, 100);
+    expect(ll.tail.value).toBe(100);
+  });
+
   test('index > ll.length, return undefined', () => {
     expect(ll.insert(5, 100)).toBe(undefined);
   });

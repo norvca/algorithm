@@ -134,6 +134,10 @@ class DoublyLinkedList {
       return this.unshift(value);
     }
 
+    if (index === this.length) {
+      return this.push(value);
+    }
+
     const newNode = new Node(value);
     const prevTemp = this.get(index - 1);
     const temp = prevTemp.next;

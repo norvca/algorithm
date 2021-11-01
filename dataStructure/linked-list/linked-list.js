@@ -128,6 +128,11 @@ class LinkedList {
       return this.unshift(value);
     }
 
+    // insert node to the last position
+    if (index === this.length) {
+      return this.push(value);
+    }
+
     const newNode = new Node(value);
     const temp = this.get(index - 1);
     newNode.next = temp.next;
