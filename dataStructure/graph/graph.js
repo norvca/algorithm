@@ -10,43 +10,45 @@ class Graph {
     }
   }
 
-  addEdge(vertex1, vertex2) {
-    const vertex1InList = this.adjacencyList[vertex1];
-    const vertex2InList = this.adjacencyList[vertex2];
+  addEdge(value1, value2) {
+    const vertex1 = this.adjacencyList[value1];
+    const vertex2 = this.adjacencyList[value2];
 
-    if (vertex1InList && vertex2InList) {
-      vertex1InList.push(vertex2);
-      vertex2InList.push(vertex1);
+    if (vertex1 && vertex2) {
+      vertex1.push(value2);
+      vertex2.push(value1);
       return this;
     }
 
     return false;
   }
 
-  removeEdge(vertex1, vertex2) {
-    let vertex1InList = this.adjacencyList[vertex1];
-    let vertex2InList = this.adjacencyList[vertex2];
+  removeEdge(value1, value2) {
+    let vertex1 = this.adjacencyList[value1];
+    let vertex2 = this.adjacencyList[value2];
 
-    if (vertex1InList && vertex2InList) {
-      this.adjacencyList[vertex1] = vertex1InList.filter(v => v !== vertex2);
-      this.adjacencyList[vertex2] = vertex2InList.filter(v => v !== vertex1);
+    if (vertex1 && vertex2) {
+      this.adjacencyList[value1] = vertex1.filter(v => v !== value2);
+      this.adjacencyList[value2] = vertex2.filter(v => v !== value1);
       return this;
     }
 
     return false;
   }
 
-  removeVertex(vertex) {
-    if (!this.adjacencyList[vertex]) {
+  removeVertex(value) {
+    if (!this.adjacencyList[value]) {
       return undefined;
     }
 
-    while (this.adjacencyList[vertex].length) {
-      const edgeVertex = this.adjacencyList[vertex].pop();
-      this.removeEdge(vertex, edgeVertex);
+    const vertex = this.adjacencyList[value];
+
+    while (vertex.length) {
+      const adjacentValue = vertex.pop();
+      this.removeEdge(value, adjacentValue);
     }
 
-    delete this.adjacencyList[vertex];
+    delete this.adjacencyList[value];
     return this;
   }
 }
